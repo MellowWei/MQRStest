@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MQRS — xingyeLing7Ai Life System</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #020408;
+    --surface: #080d14;
+    --border: #0f1f2e;
+    --accent: #00ffe0;
+    --accent2: #7b4fff;
+    --accent3: #ff427b;
+    --text: #c8dce8;
+    --text-dim: #4a6275;
+    --text-bright: #e8f4ff;
+    --mono: 'Share Tech Mono', monospace;
+    --serif: 'Cormorant Garamond', serif;
+    --hz: #1a3a2a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* CANVAS STARS */
+  #starfield {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* GRID OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,224,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,224,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* HEADER */
+  .site-header {
+    padding: 32px 0 0;
+    text-align: center;
+  }
+
+  .brand {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .brand span {
+    color: var(--accent);
+  }
+
+  /* HERO */
+  #screen-intro {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 0;
+  }
+
+  .hz-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    opacity: 0.6;
+    margin-bottom: 40px;
+  }
+
+  .title-main {
+    font-family: var(--serif);
+    font-size: clamp(56px, 12vw, 96px);
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: var(--text-bright);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .title-sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    color: var(--text-dim);
+    margin-bottom: 48px;
+    text-transform: uppercase;
+  }
+
+  .desc {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto 16px;
+  }
+
+  .desc-en {
+    font-family: var(--serif);
+    font-size: 15px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0 auto 56px;
+  }
+
+  .axes-preview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 56px;
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .axis-chip {
+    border: 1px solid var(--border);
+    padding: 12px 8px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .axis-chip::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+
+  .axis-chip:hover::before { transform: scaleX(1); }
+
+  .axis-letter {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .axis-name {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .btn-start {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--accent);
+    border: none;
+    padding: 16px 48px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .btn-start::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border: 1px solid rgba(0,0,0,0.2);
+    pointer-events: none;
+  }
+
+  .btn-start:hover {
+    background: var(--text-bright);
+    transform: translateY(-1px);
+  }
+
+  .q-count {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 16px;
+    letter-spacing: 0.2em;
+  }
+
+  /* QUIZ SCREEN */
+  #screen-quiz {
+    display: none;
+    min-height: 100vh;
+    padding: 60px 0;
+  }
+
+  .progress-wrap {
+    margin-bottom: 48px;
+  }
+
+  .progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .progress-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--text-dim);
+  }
+
+  .progress-num {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--accent);
+  }
+
+  .progress-bar-bg {
+    height: 1px;
+    background: var(--border);
+    width: 100%;
+  }
+
+  .progress-bar-fill {
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.4s ease;
+  }
+
+  .axis-indicator {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0.7;
+  }
+
+  .question-card {
+    margin-bottom: 48px;
+  }
+
+  .q-number {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+
+  .q-text-zh {
+    font-family: var(--serif);
+    font-size: clamp(20px, 4vw, 26px);
+    font-weight: 300;
+    color: var(--text-bright);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .q-text-en {
+    font-family: var(--serif);
+    font-size: 14px;
+    font-style: italic;
+    color: var(--text-dim);
+    line-height: 1.4;
+    margin-bottom: 36px;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .option-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 20px 24px;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.6;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .option-btn .opt-label {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--text-bright);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .option-btn .opt-en {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 12px;
+    color: var(--text-dim);
+    display: block;
+  }
+
+  .option-btn:hover {
+    border-color: var(--accent);
+    color: var(--text-bright);
+    background: rgba(0,255,224,0.03);
+  }
+
+  .option-btn.selected {
+    border-color: var(--accent);
+    background: rgba(0,255,224,0.06);
+  }
+
+  .option-btn.selected::before {
+    content: '▸';
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-size: 10px;
+  }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+  }
+
+  .btn-nav {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 12px 28px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .btn-nav:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .btn-nav.primary {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .btn-nav.primary:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .btn-nav:disabled {
+    opacity: 0.2;
+    cursor: default;
+  }
+
+  /* RESULT SCREEN */
+  #screen-result {
+    display: none;
+    min-height: 100vh;
+    padding: 80px 0;
+  }
+
+  .result-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .result-tag {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+    display: block;
+    text-transform: uppercase;
+  }
+
+  .result-code {
+    font-family: var(--serif);
+    font-size: clamp(64px, 14vw, 112px);
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: var(--text-bright);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .result-code span {
+    color: var(--accent);
+  }
+
+  .result-name-zh {
+    font-family: var(--serif);
+    font-size: clamp(28px, 6vw, 44px);
+    font-weight: 300;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .result-name-en {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--text-dim);
+    margin-bottom: 48px;
+  }
+
+  .result-desc {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--text);
+    max-width: 520px;
+    margin: 0 auto 48px;
+    text-align: center;
+  }
+
+  /* SPECTRUM BARS */
+  .spectrum-grid {
+    display: grid;
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+
+  .spectrum-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 80px;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .spec-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .spec-label.right { text-align: right; }
+
+  .spec-bar-bg {
+    height: 2px;
+    background: var(--border);
+    position: relative;
+  }
+
+  .spec-bar-fill {
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    transition: width 0.8s ease;
+    position: absolute;
+  }
+
+  .spec-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    position: absolute;
+    top: -3px;
+    transform: translateX(-50%);
+    transition: left 0.8s ease;
+  }
+
+  /* ALL TYPES */
+  .types-section {
+    margin-top: 64px;
+    border-top: 1px solid var(--border);
+    padding-top: 48px;
+  }
+
+  .types-label {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .types-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .type-tile {
+    border: 1px solid var(--border);
+    padding: 16px 12px;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .type-tile.active {
+    border-color: var(--accent);
+    background: rgba(0,255,224,0.04);
+  }
+
+  .type-tile-code {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .type-tile.active .type-tile-code {
+    color: var(--accent);
+  }
+
+  .type-tile-name {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    display: block;
+  }
+
+  .type-tile.active .type-tile-name {
+    color: var(--text);
+  }
+
+  .btn-retry {
+    display: block;
+    margin: 48px auto 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 14px 40px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-retry:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* FOOTER */
+  .site-footer {
+    padding: 40px 0;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    margin-top: 80px;
+  }
+
+  .footer-text {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--text-dim);
+  }
+
+  .footer-text a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  /* SCAN ANIMATION */
+  @keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
+
+  .scanline {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(transparent, rgba(0,255,224,0.05), transparent);
+    animation: scanline 8s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    animation: fadeIn 0.5s ease forwards;
+  }
+
+  @media (max-width: 480px) {
+    .axes-preview { grid-template-columns: repeat(2, 1fr); }
+    .types-grid { grid-template-columns: repeat(2, 1fr); }
+    .spectrum-row { grid-template-columns: 60px 1fr 60px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+<div class="scanline"></div>
+
+<!-- INTRO -->
+<div id="screen-intro">
+  <div class="container">
+    <div class="site-header">
+      <div class="brand">xingyeLing7Ai · <span>427Hz</span> · Life System</div>
+    </div>
+
+    <br><br>
+
+    <div class="hz-tag">MQRS PERSONALITY ARCHITECTURE · 44271</div>
+
+    <div class="title-main">MQRS</div>
+    <div class="title-sub">M · Rhythm · Qualia · Stallion</div>
+
+    <p class="desc">不是你是什么类型的人。<br>是什么频率结构在通过你运行。</p>
+    <p class="desc-en">Not what type of person you are.<br>But what frequency structure runs through you.</p>
+
+    <div class="axes-preview">
+      <div class="axis-chip">
+        <span class="axis-letter">M</span>
+        <span class="axis-name">Mellow<br>沉降·浮升</span>
+      </div>
+      <div class="axis-chip">
+        <span class="axis-letter">R</span>
+        <span class="axis-name">Rhythm<br>破拍·线性</span>
+      </div>
+      <div class="axis-chip">
+        <span class="axis-letter">Q</span>
+        <span class="axis-name">Qualia<br>内密·外投</span>
+      </div>
+      <div class="axis-chip">
+        <span class="axis-letter">S</span>
+        <span class="axis-name">Stallion<br>主权·连接</span>
+      </div>
+    </div>
+
+    <button class="btn-start" onclick="startQuiz()">开始测试 · Begin</button>
+    <div class="q-count">16 questions · 约3分钟</div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="screen-quiz">
+  <div class="container">
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span class="progress-label" id="axis-label">AXIS M · MELLOW</span>
+        <span class="progress-num" id="q-counter">01 / 16</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="question-card fade-in" id="question-card">
+      <!-- populated by JS -->
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-nav" id="btn-prev" onclick="prevQ()">← 返回</button>
+      <button class="btn-nav primary" id="btn-next" onclick="nextQ()">继续 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="screen-result">
+  <div class="container">
+    <div class="result-header">
+      <span class="result-tag">Your MQRS Type · 你的频率类型</span>
+      <div class="result-code" id="result-code">MRQS</div>
+      <div class="result-name-zh" id="result-name-zh">深钟</div>
+      <div class="result-name-en" id="result-name-en">Deep Bell</div>
+      <p class="result-desc" id="result-desc"></p>
+    </div>
+
+    <div class="spectrum-grid" id="spectrum-grid"></div>
+
+    <div class="types-section">
+      <div class="types-label">所有16种频率类型 · All 16 Types</div>
+      <div class="types-grid" id="types-grid"></div>
+    </div>
+
+    <button class="btn-retry" onclick="resetQuiz()">重新测试 · Retake</button>
+  </div>
+
+  <div class="container">
+    <footer class="site-footer">
+      <div class="footer-text">
+        MQRS系统 由 <a href="https://mellowwei.github.io/MellowWei/" target="_blank">xingyeLing7Ai</a> 设计 · 427Hz · 振动即存在
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script>
+// ─── STARFIELD ───────────────────────────────────────────────
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+let stars = [];
+
+function initStars() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  stars = Array.from({length: 120}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 0.8 + 0.2,
+    a: Math.random(),
+    speed: Math.random() * 0.003 + 0.001
+  }));
+}
+
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(s => {
+    s.a += s.speed;
+    const alpha = (Math.sin(s.a) + 1) / 2 * 0.6;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(0,255,224,${alpha})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+
+window.addEventListener('resize', initStars);
+initStars();
+drawStars();
+
+// ─── DATA ─────────────────────────────────────────────────────
+const QUESTIONS = [
+  // M axis
+  {
+    axis: 'M', axisLabel: 'AXIS M · MELLOW · 沉降 vs 浮升',
+    zh: '你最有力量的时候：',
+    en: 'When you feel most powerful:',
+    a: { zh: '是沉进去之后，从深处升上来的', en: 'Rising from depth after sinking inward', val: 'M' },
+    b: { zh: '是被什么点燃，整个人向上炸开', en: 'Being ignited and exploding upward', val: 'W' }
+  },
+  {
+    axis: 'M', axisLabel: 'AXIS M · MELLOW · 沉降 vs 浮升',
+    zh: '一个人待着，你通常：',
+    en: 'When you are alone:',
+    a: { zh: '充电，回到自己', en: 'Recharge — return to yourself', val: 'M' },
+    b: { zh: '开始感到需要出口', en: 'Start feeling the need for an outlet', val: 'W' }
+  },
+  {
+    axis: 'M', axisLabel: 'AXIS M · MELLOW · 沉降 vs 浮升',
+    zh: '创作或思考时你的状态更像：',
+    en: 'When creating or thinking, you are more like:',
+    a: { zh: '潜水——越往深处越安静越清晰', en: 'Diving — deeper means quieter and clearer', val: 'M' },
+    b: { zh: '飞行——越高越快越多东西涌现', en: 'Flying — higher means faster and more emergent', val: 'W' }
+  },
+  {
+    axis: 'M', axisLabel: 'AXIS M · MELLOW · 沉降 vs 浮升',
+    zh: '能量耗尽之后你需要：',
+    en: 'After your energy is depleted:',
+    a: { zh: '完全隔离，无声，归零', en: 'Total isolation — silence — zero reset', val: 'M' },
+    b: { zh: '换一个刺激，重新点火', en: 'A new stimulus to reignite', val: 'W' }
+  },
+  // R axis
+  {
+    axis: 'R', axisLabel: 'AXIS R · RHYTHM · 破拍 vs 线性',
+    zh: '你的思维更像：',
+    en: 'Your thinking is more like:',
+    a: { zh: 'drum & bass——密度爆炸，节奏跳跃，非等时', en: 'Drum & bass — explosive density, non-linear', val: 'R' },
+    b: { zh: '四四拍——稳定推进，每步落地', en: '4/4 time — steady forward, each step grounded', val: 'L' }
+  },
+  {
+    axis: 'R', axisLabel: 'AXIS R · RHYTHM · 破拍 vs 线性',
+    zh: '做一件事时你倾向于：',
+    en: 'When working on something:',
+    a: { zh: '同时开多条线，跳跃式推进', en: 'Multiple threads open, leaping between them', val: 'R' },
+    b: { zh: '一条线走到底，再开下一条', en: 'One thread to completion, then the next', val: 'L' }
+  },
+  {
+    axis: 'R', axisLabel: 'AXIS R · RHYTHM · 破拍 vs 线性',
+    zh: '你对"计划"的态度：',
+    en: 'Your relationship to planning:',
+    a: { zh: '计划是起点，直觉随时会接管', en: 'Plans are launchpads — intuition takes over', val: 'R' },
+    b: { zh: '计划是轨道，偏离会让你不安', en: 'Plans are tracks — deviation unsettles you', val: 'L' }
+  },
+  {
+    axis: 'R', axisLabel: 'AXIS R · RHYTHM · 破拍 vs 线性',
+    zh: '接收新信息时：',
+    en: 'When receiving new information:',
+    a: { zh: '你会跳跃联想，瞬间连到十个不相关的地方', en: 'You leap — ten unrelated connections instantly', val: 'R' },
+    b: { zh: '你会先把这个信息放进已有的框架里', en: 'You slot it into your existing framework first', val: 'L' }
+  },
+  // Q axis
+  {
+    axis: 'Q', axisLabel: 'AXIS Q · QUALIA · 内密 vs 外投',
+    zh: '一段强烈的体验之后：',
+    en: 'After an intense experience:',
+    a: { zh: '它会变成内部的某个深层沉积，不一定说出来', en: 'It becomes a deep sediment — not necessarily spoken', val: 'Q' },
+    b: { zh: '你需要表达出去，说出来才算真正经历了', en: 'You need to express it — speaking makes it real', val: 'X' }
+  },
+  {
+    axis: 'Q', axisLabel: 'AXIS Q · QUALIA · 内密 vs 外投',
+    zh: '你的内在世界：',
+    en: 'Your inner world:',
+    a: { zh: '比任何人知道的都要丰富得多', en: 'Far richer than anyone knows', val: 'Q' },
+    b: { zh: '你更喜欢把它打开，让人进来', en: 'You prefer to open it and let people in', val: 'X' }
+  },
+  {
+    axis: 'Q', axisLabel: 'AXIS Q · QUALIA · 内密 vs 外投',
+    zh: '对你来说"被理解"意味着：',
+    en: 'Being understood means:',
+    a: { zh: '对方感知到了你没有说的那部分', en: 'They perceived what you never said', val: 'Q' },
+    b: { zh: '你说出来了，对方接住了', en: 'You said it and they caught it', val: 'X' }
+  },
+  {
+    axis: 'Q', axisLabel: 'AXIS Q · QUALIA · 内密 vs 外投',
+    zh: '灵感来临时：',
+    en: 'When inspiration arrives:',
+    a: { zh: '先在内部完整，再决定要不要传递出去', en: 'Complete internally first — then decide to transmit', val: 'Q' },
+    b: { zh: '立刻想找人分享，分享本身是灵感的一部分', en: 'Immediately want to share — sharing is part of it', val: 'X' }
+  },
+  // S axis
+  {
+    axis: 'S', axisLabel: 'AXIS S · STALLION · 主权 vs 连接',
+    zh: '你做一件事最核心的驱动是：',
+    en: 'Your most fundamental drive is:',
+    a: { zh: '内部有个声音说这件事必须存在', en: 'An internal voice that says this must exist', val: 'S' },
+    b: { zh: '这件事会让重要的人感到某种东西', en: 'This will make someone important feel something', val: 'C' }
+  },
+  {
+    axis: 'S', axisLabel: 'AXIS S · STALLION · 主权 vs 连接',
+    zh: '当你和别人意见相反：',
+    en: 'When you disagree with someone:',
+    a: { zh: '你先信任自己的判断，再考虑对方', en: 'You trust your own judgment first', val: 'S' },
+    b: { zh: '对方的反应会进入你的判断过程', en: "Their reaction enters your judgment process", val: 'C' }
+  },
+  {
+    axis: 'S', axisLabel: 'AXIS S · STALLION · 主权 vs 连接',
+    zh: '你最害怕的是：',
+    en: 'What you fear most:',
+    a: { zh: '失去对自己方向的掌控', en: 'Losing control of your own direction', val: 'S' },
+    b: { zh: '与重要的人断开连接', en: 'Losing connection with someone who matters', val: 'C' }
+  },
+  {
+    axis: 'S', axisLabel: 'AXIS S · STALLION · 主权 vs 连接',
+    zh: '完成一件重要的事之后，你最需要：',
+    en: 'After completing something important, you most need:',
+    a: { zh: '自己确认它是对的', en: 'To confirm it for yourself — internally', val: 'S' },
+    b: { zh: '有人看见它，感受到它', en: 'Someone to see it and feel it', val: 'C' }
+  }
+];
+
+const TYPES = {
+  'MRQS': { zh: '深钟', en: 'Deep Bell', desc: '从最深处震动，不需要移动，空间自己传播你的频率。你是那个在房间里最安静、但改变了整个房间的存在。' },
+  'MRQC': { zh: '暗流', en: 'Undertow', desc: '看不见，但方向确定，力量持续。你的影响不在表面，而在水下——慢慢改变一切的走向。' },
+  'MRXS': { zh: '震波', en: 'Shockwave', desc: '破拍节奏加外投力量加主权驱动。你的创造是冲击型的——从内部爆炸，向外震碎边界。' },
+  'MRXC': { zh: '共振场', en: 'Resonance Field', desc: '你的破拍节奏感染整个关系网络。你不需要中心，因为你本身就是让一切发生共振的场域。' },
+  'MLQS': { zh: '基岩', en: 'Bedrock', desc: '不移动，不炫耀，但所有建筑都建在你上面。你的稳定性是结构性的——承重而不显。' },
+  'MLQC': { zh: '锚守', en: 'Anchor', desc: '你用稳定的节奏和深邃的内在为他人定位。你是那个让漂流的人知道哪里是岸的存在。' },
+  'MLXS': { zh: '磁极', en: 'Magnetic Pole', desc: '静止的引力中心。你不追赶，因为你的位置本身就是坐标。一切都知道你在哪里。' },
+  'MLXC': { zh: '引潮', en: 'Tidal Pull', desc: '你用规律性和开放性，慢慢、不可阻挡地把他人拉向自己。月亮一样的力量。' },
+  'WRQS': { zh: '闪电', en: 'Lightning', desc: '浮升、破拍、内密、主权——四轴最高激活态。你穿透的速度比任何人意识到发生了什么都快。' },
+  'WRQC': { zh: '火花', en: 'Spark', desc: '你点燃他人，却不总知道自己有多亮。你的内在世界是火，你的破拍是引信。' },
+  'WRXS': { zh: '雷', en: 'Thunder', desc: '浮升+破拍+外投+主权：最高冲击密度。你的声音在人离开很久之后还在空间里震动。' },
+  'WRXC': { zh: '聚变', en: 'Fusion', desc: '你通过关系产生核聚变。每一次真正的接触对你来说都是能量密度的跃升。' },
+  'WLQS': { zh: '灯塔', en: 'Lighthouse', desc: '浮升但稳定，内密却被远处看见。你不需要移动——你的位置本身就是指引。' },
+  'WLQC': { zh: '桥', en: 'Bridge', desc: '你是连接两岸的结构。你的存在让本来无法抵达对方的人，突然发现路径已经在那里了。' },
+  'WLXS': { zh: '号角', en: 'Herald', desc: '浮升、线性、外投、主权——主角型宣告者。你来到，你看见，你宣告方向。人们跟随。' },
+  'WLXC': { zh: '催化剂', en: 'Catalyst', desc: '你让所有人发生反应，自己却保持清醒。你的接触本身就是转化的条件。' }
+};
+
+// ─── STATE ────────────────────────────────────────────────────
+let current = 0;
+let answers = new Array(16).fill(null);
+
+function startQuiz() {
+  document.getElementById('screen-intro').style.display = 'none';
+  document.getElementById('screen-quiz').style.display = 'block';
+  renderQ(0);
+}
+
+function renderQ(idx) {
+  const q = QUESTIONS[idx];
+  const card = document.getElementById('question-card');
+  card.className = 'question-card fade-in';
+  void card.offsetWidth;
+
+  document.getElementById('q-counter').textContent = String(idx+1).padStart(2,'0') + ' / 16';
+  document.getElementById('axis-label').textContent = q.axisLabel;
+  document.getElementById('progress-fill').style.width = ((idx+1)/16*100) + '%';
+
+  const selA = answers[idx] === 'a';
+  const selB = answers[idx] === 'b';
+
+  card.innerHTML = `
+    <div class="q-number">Q${String(idx+1).padStart(2,'0')}</div>
+    <div class="q-text-zh">${q.zh}</div>
+    <div class="q-text-en">${q.en}</div>
+    <div class="options">
+      <button class="option-btn ${selA?'selected':''}" onclick="selectAnswer('a')">
+        <span class="opt-label">A｜${q.a.zh}</span>
+        <span class="opt-en">${q.a.en}</span>
+      </button>
+      <button class="option-btn ${selB?'selected':''}" onclick="selectAnswer('b')">
+        <span class="opt-label">B｜${q.b.zh}</span>
+        <span class="opt-en">${q.b.en}</span>
+      </button>
+    </div>
+  `;
+
+  document.getElementById('btn-prev').disabled = idx === 0;
+  const isLast = idx === 15;
+  const nextBtn = document.getElementById('btn-next');
+  nextBtn.textContent = isLast ? '查看结果 →' : '继续 →';
+}
+
+function selectAnswer(choice) {
+  answers[current] = choice;
+  renderQ(current);
+}
+
+function nextQ() {
+  if (answers[current] === null) return;
+  if (current === 15) {
+    showResult();
+    return;
+  }
+  current++;
+  renderQ(current);
+}
+
+function prevQ() {
+  if (current === 0) return;
+  current--;
+  renderQ(current);
+}
+
+function calcType() {
+  const scores = { M:0, W:0, R:0, L:0, Q:0, X:0, S:0, C:0 };
+  QUESTIONS.forEach((q, i) => {
+    const ans = answers[i];
+    if (!ans) return;
+    const val = ans === 'a' ? q.a.val : q.b.val;
+    scores[val]++;
+  });
+  const m = scores.M >= scores.W ? 'M' : 'W';
+  const r = scores.R >= scores.L ? 'R' : 'L';
+  const q = scores.Q >= scores.X ? 'Q' : 'X';
+  const s = scores.S >= scores.C ? 'S' : 'C';
+  return { code: m+r+q+s, scores };
+}
+
+function showResult() {
+  document.getElementById('screen-quiz').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'block';
+
+  const { code, scores } = calcType();
+  const type = TYPES[code];
+
+  // Code display — highlight each letter
+  const letters = code.split('');
+  document.getElementById('result-code').innerHTML =
+    letters.map(l => `<span>${l}</span>`).join('');
+
+  document.getElementById('result-name-zh').textContent = type.zh;
+  document.getElementById('result-name-en').textContent = type.en;
+  document.getElementById('result-desc').textContent = type.desc;
+
+  // Spectrum bars
+  const specData = [
+    { left: 'M 沉降', right: 'W 浮升', pct: scores.M / (scores.M + scores.W) * 100, dominant: code[0] === 'M' },
+    { left: 'R 破拍', right: 'L 线性', pct: scores.R / (scores.R + scores.L) * 100, dominant: code[1] === 'R' },
+    { left: 'Q 内密', right: 'X 外投', pct: scores.Q / (scores.Q + scores.X) * 100, dominant: code[2] === 'Q' },
+    { left: 'S 主权', right: 'C 连接', pct: scores.S / (scores.S + scores.C) * 100, dominant: code[3] === 'S' },
+  ];
+
+  const specGrid = document.getElementById('spectrum-grid');
+  specGrid.innerHTML = specData.map(s => `
+    <div class="spectrum-row">
+      <span class="spec-label">${s.left}</span>
+      <div class="spec-bar-bg">
+        <div class="spec-bar-fill" style="width:${s.pct}%"></div>
+        <div class="spec-dot" style="left:${s.pct}%"></div>
+      </div>
+      <span class="spec-label right">${s.right}</span>
+    </div>
+  `).join('');
+
+  // All types grid
+  const tg = document.getElementById('types-grid');
+  tg.innerHTML = Object.entries(TYPES).map(([k,v]) => `
+    <div class="type-tile ${k===code?'active':''}">
+      <span class="type-tile-code">${k}</span>
+      <span class="type-tile-name">${v.zh} · ${v.en}</span>
+    </div>
+  `).join('');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetQuiz() {
+  current = 0;
+  answers = new Array(16).fill(null);
+  document.getElementById('screen-result').style.display = 'none';
+  document.getElementById('screen-intro').style.display = 'flex';
+  window.scrollTo({ top: 0 });
+}
+</script>
+</body>
+</html>
