@@ -8,703 +8,198 @@
 <style>
   :root {
     --bg: #020408;
-    --surface: #080d14;
     --border: #0f1f2e;
     --accent: #00ffe0;
     --accent2: #7b4fff;
-    --accent3: #ff427b;
     --text: #c8dce8;
     --text-dim: #4a6275;
     --text-bright: #e8f4ff;
     --mono: 'Share Tech Mono', monospace;
     --serif: 'Cormorant Garamond', serif;
-    --hz: #1a3a2a;
   }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--mono);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* CANVAS STARS */
-  #starfield {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  /* GRID OVERLAY */
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--bg); color:var(--text); font-family:var(--mono); min-height:100vh; overflow-x:hidden; }
+  #starfield { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
   body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,255,224,0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,255,224,0.02) 1px, transparent 1px);
-    background-size: 60px 60px;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
-  /* HEADER */
-  .site-header {
-    padding: 32px 0 0;
-    text-align: center;
-  }
-
-  .brand {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-  }
-
-  .brand span {
-    color: var(--accent);
-  }
-
-  /* HERO */
-  #screen-intro {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 60px 0;
-  }
-
-  .hz-tag {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.4em;
-    color: var(--accent);
-    opacity: 0.6;
-    margin-bottom: 40px;
-  }
-
-  .title-main {
-    font-family: var(--serif);
-    font-size: clamp(56px, 12vw, 96px);
-    font-weight: 300;
-    letter-spacing: 0.15em;
-    color: var(--text-bright);
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-
-  .title-sub {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.5em;
-    color: var(--text-dim);
-    margin-bottom: 48px;
-    text-transform: uppercase;
-  }
-
-  .desc {
-    font-family: var(--serif);
-    font-size: 18px;
-    font-weight: 300;
-    font-style: italic;
-    color: var(--text);
-    line-height: 1.7;
-    max-width: 480px;
-    margin: 0 auto 16px;
-  }
-
-  .desc-en {
-    font-family: var(--serif);
-    font-size: 15px;
-    color: var(--text-dim);
-    line-height: 1.6;
-    max-width: 480px;
-    margin: 0 auto 56px;
-  }
-
-  .axes-preview {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 56px;
-    width: 100%;
-    max-width: 560px;
-  }
-
-  .axis-chip {
-    border: 1px solid var(--border);
-    padding: 12px 8px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .axis-chip::before {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 100%; height: 1px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transition: transform 0.3s;
-  }
-
-  .axis-chip:hover::before { transform: scaleX(1); }
-
-  .axis-letter {
-    font-family: var(--serif);
-    font-size: 28px;
-    font-weight: 600;
-    color: var(--accent);
-    display: block;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .axis-name {
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-  }
-
-  .btn-start {
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--bg);
-    background: var(--accent);
-    border: none;
-    padding: 16px 48px;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-  }
-
-  .btn-start::after {
-    content: '';
-    position: absolute;
-    inset: 2px;
-    border: 1px solid rgba(0,0,0,0.2);
-    pointer-events: none;
-  }
-
-  .btn-start:hover {
-    background: var(--text-bright);
-    transform: translateY(-1px);
-  }
-
-  .q-count {
-    font-size: 10px;
-    color: var(--text-dim);
-    margin-top: 16px;
-    letter-spacing: 0.2em;
-  }
-
-  /* QUIZ SCREEN */
-  #screen-quiz {
-    display: none;
-    min-height: 100vh;
-    padding: 60px 0;
-  }
-
-  .progress-wrap {
-    margin-bottom: 48px;
-  }
-
-  .progress-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-
-  .progress-label {
-    font-size: 10px;
-    letter-spacing: 0.3em;
-    color: var(--text-dim);
-  }
-
-  .progress-num {
-    font-family: var(--serif);
-    font-size: 13px;
-    color: var(--accent);
-  }
-
-  .progress-bar-bg {
-    height: 1px;
-    background: var(--border);
-    width: 100%;
-  }
-
-  .progress-bar-fill {
-    height: 1px;
-    background: var(--accent);
-    transition: width 0.4s ease;
-  }
-
-  .axis-indicator {
-    font-size: 9px;
-    letter-spacing: 0.4em;
-    color: var(--accent2);
-    text-transform: uppercase;
-    margin-bottom: 24px;
-    opacity: 0.7;
-  }
-
-  .question-card {
-    margin-bottom: 48px;
-  }
-
-  .q-number {
-    font-size: 10px;
-    letter-spacing: 0.4em;
-    color: var(--text-dim);
-    margin-bottom: 20px;
-  }
-
-  .q-text-zh {
-    font-family: var(--serif);
-    font-size: clamp(20px, 4vw, 26px);
-    font-weight: 300;
-    color: var(--text-bright);
-    line-height: 1.5;
-    margin-bottom: 8px;
-  }
-
-  .q-text-en {
-    font-family: var(--serif);
-    font-size: 14px;
-    font-style: italic;
-    color: var(--text-dim);
-    line-height: 1.4;
-    margin-bottom: 36px;
-  }
-
-  .options {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .option-btn {
-    display: block;
-    width: 100%;
-    text-align: left;
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 20px 24px;
-    cursor: pointer;
-    font-family: var(--mono);
-    font-size: 12px;
-    line-height: 1.6;
-    transition: all 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .option-btn .opt-label {
-    font-family: var(--serif);
-    font-size: 18px;
-    font-weight: 300;
-    color: var(--text-bright);
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  .option-btn .opt-en {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 12px;
-    color: var(--text-dim);
-    display: block;
-  }
-
-  .option-btn:hover {
-    border-color: var(--accent);
-    color: var(--text-bright);
-    background: rgba(0,255,224,0.03);
-  }
-
-  .option-btn.selected {
-    border-color: var(--accent);
-    background: rgba(0,255,224,0.06);
-  }
-
-  .option-btn.selected::before {
-    content: '▸';
-    position: absolute;
-    left: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--accent);
-    font-size: 10px;
-  }
-
-  .nav-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 40px;
-  }
-
-  .btn-nav {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    padding: 12px 28px;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-transform: uppercase;
-  }
-
-  .btn-nav:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  .btn-nav.primary {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  .btn-nav.primary:hover {
-    background: var(--accent);
-    color: var(--bg);
-  }
-
-  .btn-nav:disabled {
-    opacity: 0.2;
-    cursor: default;
-  }
-
-  /* RESULT SCREEN */
-  #screen-result {
-    display: none;
-    min-height: 100vh;
-    padding: 80px 0;
-  }
-
-  .result-header {
-    text-align: center;
-    margin-bottom: 64px;
-  }
-
-  .result-tag {
-    font-size: 10px;
-    letter-spacing: 0.4em;
-    color: var(--text-dim);
-    margin-bottom: 24px;
-    display: block;
-    text-transform: uppercase;
-  }
-
-  .result-code {
-    font-family: var(--serif);
-    font-size: clamp(64px, 14vw, 112px);
-    font-weight: 300;
-    letter-spacing: 0.2em;
-    color: var(--text-bright);
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-
-  .result-code span {
-    color: var(--accent);
-  }
-
-  .result-name-zh {
-    font-family: var(--serif);
-    font-size: clamp(28px, 6vw, 44px);
-    font-weight: 300;
-    color: var(--accent);
-    margin-bottom: 4px;
-  }
-
-  .result-name-en {
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: 18px;
-    color: var(--text-dim);
-    margin-bottom: 48px;
-  }
-
-  .result-desc {
-    font-family: var(--serif);
-    font-size: 18px;
-    font-weight: 300;
-    line-height: 1.8;
-    color: var(--text);
-    max-width: 520px;
-    margin: 0 auto 48px;
-    text-align: center;
-  }
-
-  /* SPECTRUM BARS */
-  .spectrum-grid {
-    display: grid;
-    gap: 24px;
-    margin-bottom: 56px;
-  }
-
-  .spectrum-row {
-    display: grid;
-    grid-template-columns: 80px 1fr 80px;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .spec-label {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-  }
-
-  .spec-label.right { text-align: right; }
-
-  .spec-bar-bg {
-    height: 2px;
-    background: var(--border);
-    position: relative;
-  }
-
-  .spec-bar-fill {
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent2), var(--accent));
-    transition: width 0.8s ease;
-    position: absolute;
-  }
-
-  .spec-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    position: absolute;
-    top: -3px;
-    transform: translateX(-50%);
-    transition: left 0.8s ease;
-  }
-
-  /* ALL TYPES */
-  .types-section {
-    margin-top: 64px;
-    border-top: 1px solid var(--border);
-    padding-top: 48px;
-  }
-
-  .types-label {
-    font-size: 10px;
-    letter-spacing: 0.4em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    margin-bottom: 32px;
-    text-align: center;
-  }
-
-  .types-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-  }
-
-  .type-tile {
-    border: 1px solid var(--border);
-    padding: 16px 12px;
-    text-align: center;
-    transition: all 0.2s;
-    cursor: default;
-  }
-
-  .type-tile.active {
-    border-color: var(--accent);
-    background: rgba(0,255,224,0.04);
-  }
-
-  .type-tile-code {
-    font-family: var(--serif);
-    font-size: 18px;
-    font-weight: 300;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  .type-tile.active .type-tile-code {
-    color: var(--accent);
-  }
-
-  .type-tile-name {
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    color: var(--text-dim);
-    display: block;
-  }
-
-  .type-tile.active .type-tile-name {
-    color: var(--text);
-  }
-
-  .btn-retry {
-    display: block;
-    margin: 48px auto 0;
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    background: transparent;
-    border: 1px solid var(--border);
-    padding: 14px 40px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .btn-retry:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  /* FOOTER */
-  .site-footer {
-    padding: 40px 0;
-    text-align: center;
-    border-top: 1px solid var(--border);
-    margin-top: 80px;
-  }
-
-  .footer-text {
-    font-size: 10px;
-    letter-spacing: 0.3em;
-    color: var(--text-dim);
-  }
-
-  .footer-text a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-
-  /* SCAN ANIMATION */
-  @keyframes scanline {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100vh); }
-  }
-
-  .scanline {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(transparent, rgba(0,255,224,0.05), transparent);
-    animation: scanline 8s linear infinite;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .fade-in {
-    animation: fadeIn 0.5s ease forwards;
-  }
-
-  @media (max-width: 480px) {
-    .axes-preview { grid-template-columns: repeat(2, 1fr); }
-    .types-grid { grid-template-columns: repeat(2, 1fr); }
-    .spectrum-row { grid-template-columns: 60px 1fr 60px; }
+    content:''; position:fixed; inset:0;
+    background-image: linear-gradient(rgba(0,255,224,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,224,0.015) 1px,transparent 1px);
+    background-size:60px 60px; z-index:0; pointer-events:none;
+  }
+  @keyframes scan { 0%{transform:translateY(-100%)} 100%{transform:translateY(100vh)} }
+  .scanline { position:fixed; top:0; left:0; width:100%; height:2px; background:linear-gradient(transparent,rgba(0,255,224,0.04),transparent); animation:scan 10s linear infinite; z-index:0; pointer-events:none; }
+  .container { position:relative; z-index:1; max-width:760px; margin:0 auto; padding:0 24px; }
+
+  /* INTRO */
+  #screen-intro { min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:60px 0; }
+  .brand { font-size:11px; letter-spacing:.3em; color:var(--text-dim); text-transform:uppercase; margin-bottom:44px; }
+  .brand span { color:var(--accent); }
+  .hz-tag { font-size:10px; letter-spacing:.4em; color:var(--accent); opacity:.5; margin-bottom:28px; }
+  .title-main { font-family:var(--serif); font-size:clamp(64px,13vw,108px); font-weight:300; letter-spacing:.15em; color:var(--text-bright); line-height:1; margin-bottom:8px; }
+  .title-sub { font-size:11px; letter-spacing:.5em; color:var(--text-dim); margin-bottom:44px; text-transform:uppercase; }
+  .desc { font-family:var(--serif); font-size:19px; font-weight:300; font-style:italic; color:var(--text); line-height:1.7; max-width:480px; margin:0 auto 8px; }
+  .desc-en { font-family:var(--serif); font-size:14px; color:var(--text-dim); line-height:1.6; max-width:480px; margin:0 auto 48px; }
+  .axes-preview { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:48px; width:100%; max-width:540px; }
+  .axis-chip { border:1px solid var(--border); padding:14px 8px; text-align:center; transition:border-color .2s; }
+  .axis-chip:hover { border-color:var(--accent); }
+  .axis-letter { font-family:var(--serif); font-size:30px; font-weight:600; color:var(--accent); display:block; line-height:1; margin-bottom:6px; }
+  .axis-name { font-size:9px; letter-spacing:.15em; color:var(--text-dim); text-transform:uppercase; line-height:1.6; }
+  .btn-start { font-family:var(--mono); font-size:12px; letter-spacing:.3em; text-transform:uppercase; color:var(--bg); background:var(--accent); border:none; padding:16px 52px; cursor:pointer; transition:all .2s; }
+  .btn-start:hover { background:var(--text-bright); transform:translateY(-1px); }
+  .q-count { font-size:10px; color:var(--text-dim); margin-top:12px; letter-spacing:.2em; }
+
+  /* QUIZ */
+  #screen-quiz { display:none; min-height:100vh; padding:56px 0 80px; }
+  .progress-wrap { margin-bottom:40px; }
+  .progress-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+  .progress-label { font-size:10px; letter-spacing:.3em; color:var(--text-dim); text-transform:uppercase; }
+  .progress-num { font-family:var(--serif); font-size:13px; color:var(--accent); }
+  .progress-bar-bg { height:1px; background:var(--border); }
+  .progress-bar-fill { height:1px; background:var(--accent); transition:width .4s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  #question-card { animation:fadeIn .4s ease forwards; }
+  .q-type-badge { display:inline-block; font-size:9px; letter-spacing:.3em; text-transform:uppercase; padding:3px 10px; border:1px solid; margin-bottom:16px; }
+  .q-type-badge.degree { border-color:var(--accent2); color:var(--accent2); }
+  .q-type-badge.choice { border-color:var(--accent); color:var(--accent); }
+  .q-number { font-size:10px; letter-spacing:.4em; color:var(--text-dim); margin-bottom:12px; }
+  .q-text-zh { font-family:var(--serif); font-size:clamp(19px,3.5vw,25px); font-weight:300; color:var(--text-bright); line-height:1.5; margin-bottom:4px; }
+  .q-text-en { font-family:var(--serif); font-size:15px; font-style:italic; color:var(--text); line-height:1.5; margin-bottom:28px; opacity:.75; }
+
+  /* DEGREE */
+  .degree-options { display:flex; flex-direction:column; gap:8px; }
+  .degree-btn {
+    display:flex; align-items:center; gap:14px; background:transparent;
+    border:1px solid var(--border); border-left:2px solid transparent;
+    color:var(--text); padding:13px 18px; cursor:pointer; font-family:var(--mono);
+    text-align:left; transition:all .25s ease; width:100%;
+    position:relative;
+  }
+  .deg-dot { width:26px; height:26px; border-radius:50%; border:1px solid var(--border); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--text-dim); transition:all .25s; }
+  .deg-text span { display:block; font-family:var(--serif); font-size:16px; font-weight:300; color:var(--text-bright); line-height:1.3; }
+  .deg-text small { font-size:12px; color:var(--text-dim); font-family:var(--serif); font-style:italic; }
+  .degree-btn:hover {
+    border-color:var(--accent); border-left-color:var(--accent);
+    background:rgba(0,255,224,0.03); transform:translateX(3px);
+  }
+  .degree-btn:hover .deg-dot { border-color:var(--accent); color:var(--accent); }
+  .degree-btn:hover .deg-text small { color:var(--text); }
+  .degree-btn.selected {
+    border-color:var(--accent); border-left-color:var(--accent);
+    background:rgba(0,255,224,0.05); transform:translateX(3px);
+  }
+  .degree-btn.selected .deg-dot { background:var(--accent); border-color:var(--accent); color:var(--bg); }
+  .degree-btn.selected .deg-text small { color:var(--text); }
+
+  /* CHOICE */
+  .choice-options { display:flex; flex-direction:column; gap:10px; }
+  .choice-btn {
+    display:block; width:100%; text-align:left; background:transparent;
+    border:1px solid var(--border); border-left:2px solid transparent;
+    padding:16px 20px; cursor:pointer; transition:all .25s ease;
+    position:relative;
+  }
+  .c-key { font-size:9px; letter-spacing:.25em; color:var(--text-dim); display:block; margin-bottom:5px; transition:color .2s; }
+  .c-zh { font-family:var(--serif); font-size:17px; font-weight:300; color:var(--text-bright); display:block; margin-bottom:4px; line-height:1.4; }
+  .c-en { font-family:var(--serif); font-style:italic; font-size:13px; color:var(--text-dim); display:block; line-height:1.4; transition:color .2s; }
+  .choice-btn:hover {
+    border-color:var(--accent); border-left-color:var(--accent);
+    background:rgba(0,255,224,0.03); transform:translateX(3px);
+  }
+  .choice-btn:hover .c-key { color:var(--accent); }
+  .choice-btn:hover .c-en { color:var(--text); }
+  .choice-btn.selected {
+    border-color:var(--accent); border-left-color:var(--accent);
+    background:rgba(0,255,224,0.06); transform:translateX(3px);
+  }
+  .choice-btn.selected .c-key { color:var(--accent); }
+  .choice-btn.selected .c-en { color:var(--text); }
+
+  .nav-row { display:flex; justify-content:space-between; align-items:center; margin-top:36px; }
+  .btn-nav { font-family:var(--mono); font-size:11px; letter-spacing:.2em; background:transparent; border:1px solid var(--border); color:var(--text-dim); padding:12px 28px; cursor:pointer; transition:all .2s; text-transform:uppercase; }
+  .btn-nav:hover { border-color:var(--accent); color:var(--accent); }
+  .btn-nav.primary { border-color:var(--accent); color:var(--accent); }
+  .btn-nav.primary:hover { background:var(--accent); color:var(--bg); }
+  .btn-nav:disabled { opacity:.2; cursor:default; pointer-events:none; }
+
+  /* RESULT */
+  #screen-result { display:none; min-height:100vh; padding:80px 0; }
+  .result-header { text-align:center; margin-bottom:60px; }
+  .result-tag { font-size:10px; letter-spacing:.4em; color:var(--text-dim); margin-bottom:20px; display:block; text-transform:uppercase; }
+  .result-code { font-family:var(--serif); font-size:clamp(68px,14vw,116px); font-weight:300; letter-spacing:.2em; color:var(--text-bright); line-height:1; margin-bottom:8px; }
+  .result-code span { color:var(--accent); }
+  .result-name-zh { font-family:var(--serif); font-size:clamp(28px,5vw,44px); font-weight:300; color:var(--accent); margin-bottom:4px; }
+  .result-name-en { font-family:var(--serif); font-style:italic; font-size:18px; color:var(--text-dim); margin-bottom:44px; }
+  .result-desc { font-family:var(--serif); font-size:18px; font-weight:300; line-height:1.9; color:var(--text); max-width:540px; margin:0 auto; }
+
+  .spec-section { margin:56px 0; }
+  .spec-title { font-size:10px; letter-spacing:.4em; color:var(--text-dim); text-transform:uppercase; margin-bottom:28px; text-align:center; }
+  .spectrum-grid { display:grid; gap:32px; }
+  .spectrum-row { display:grid; grid-template-columns:90px 1fr 90px; align-items:center; gap:16px; }
+  .spec-lbl { font-size:10px; letter-spacing:.12em; color:var(--text-dim); text-transform:uppercase; line-height:1.4; }
+  .spec-lbl.right { text-align:right; }
+  .spec-lbl.active { color:var(--accent); }
+  .spec-bar-bg { height:2px; background:var(--border); position:relative; }
+  .spec-fill { height:2px; background:linear-gradient(90deg,var(--accent2),var(--accent)); position:absolute; }
+  .spec-dot { width:10px; height:10px; border-radius:50%; background:var(--accent); position:absolute; top:-4px; transform:translateX(-50%); box-shadow:0 0 8px var(--accent); }
+  .spec-pct { position:absolute; top:-20px; font-size:9px; color:var(--accent); transform:translateX(-50%); font-family:var(--mono); }
+
+  .types-section { border-top:1px solid var(--border); padding-top:44px; }
+  .types-label { font-size:10px; letter-spacing:.4em; color:var(--text-dim); text-transform:uppercase; margin-bottom:24px; text-align:center; }
+  .types-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+  .type-tile { border:1px solid var(--border); padding:18px 10px; text-align:center; transition:all .2s; }
+  .type-tile.active { border-color:var(--accent); background:rgba(0,255,224,0.04); }
+  .tt-code { font-family:var(--serif); font-size:17px; font-weight:300; color:var(--text-dim); letter-spacing:.1em; display:block; margin-bottom:4px; }
+  .type-tile.active .tt-code { color:var(--accent); }
+  .tt-name { font-size:9px; color:var(--text-dim); display:block; line-height:1.4; }
+  .type-tile.active .tt-name { color:var(--text); }
+
+  .btn-retry { display:block; margin:44px auto 0; font-family:var(--mono); font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--text-dim); background:transparent; border:1px solid var(--border); padding:13px 40px; cursor:pointer; transition:all .2s; }
+  .btn-retry:hover { border-color:var(--accent); color:var(--accent); }
+  .site-footer { padding:36px 0; text-align:center; border-top:1px solid var(--border); margin-top:72px; }
+  .footer-text { font-size:10px; letter-spacing:.25em; color:var(--text-dim); }
+  .footer-text a { color:var(--accent); text-decoration:none; }
+
+  @media (max-width:520px) {
+    .axes-preview { grid-template-columns:repeat(2,1fr); }
+    .types-grid { grid-template-columns:repeat(2,1fr); }
+    .spectrum-row { grid-template-columns:56px 1fr 56px; }
+    .spec-lbl { font-size:9px; }
   }
 </style>
 </head>
 <body>
-
 <canvas id="starfield"></canvas>
 <div class="scanline"></div>
 
-<!-- INTRO -->
 <div id="screen-intro">
   <div class="container">
-    <div class="site-header">
-      <div class="brand">xingyeLing7Ai · <span>427Hz</span> · Life System</div>
-    </div>
-
-    <br><br>
-
+    <div class="brand">xingyeLing7Ai · <span>427Hz</span> · Life System</div>
     <div class="hz-tag">MQRS PERSONALITY ARCHITECTURE · 44271</div>
-
     <div class="title-main">MQRS</div>
-    <div class="title-sub">M · Rhythm · Qualia · Stallion</div>
-
+    <div class="title-sub">Mellow · Rhythm · Qualia · Stallion</div>
     <p class="desc">不是你是什么类型的人。<br>是什么频率结构在通过你运行。</p>
     <p class="desc-en">Not what type of person you are.<br>But what frequency structure runs through you.</p>
-
     <div class="axes-preview">
-      <div class="axis-chip">
-        <span class="axis-letter">M</span>
-        <span class="axis-name">Mellow<br>沉降·浮升</span>
-      </div>
-      <div class="axis-chip">
-        <span class="axis-letter">R</span>
-        <span class="axis-name">Rhythm<br>破拍·线性</span>
-      </div>
-      <div class="axis-chip">
-        <span class="axis-letter">Q</span>
-        <span class="axis-name">Qualia<br>内密·外投</span>
-      </div>
-      <div class="axis-chip">
-        <span class="axis-letter">S</span>
-        <span class="axis-name">Stallion<br>主权·连接</span>
-      </div>
+      <div class="axis-chip"><span class="axis-letter">M</span><span class="axis-name">Mellow<br>沉降 · 浮升</span></div>
+      <div class="axis-chip"><span class="axis-letter">R</span><span class="axis-name">Rhythm<br>破拍 · 线性</span></div>
+      <div class="axis-chip"><span class="axis-letter">Q</span><span class="axis-name">Qualia<br>内密 · 外投</span></div>
+      <div class="axis-chip"><span class="axis-letter">S</span><span class="axis-name">Stallion<br>主权 · 连接</span></div>
     </div>
-
     <button class="btn-start" onclick="startQuiz()">开始测试 · Begin</button>
-    <div class="q-count">16 questions · 约3分钟</div>
+    <div class="q-count">32 questions · 约5分钟</div>
   </div>
 </div>
 
-<!-- QUIZ -->
 <div id="screen-quiz">
   <div class="container">
     <div class="progress-wrap">
       <div class="progress-top">
-        <span class="progress-label" id="axis-label">AXIS M · MELLOW</span>
-        <span class="progress-num" id="q-counter">01 / 16</span>
+        <span class="progress-label" id="axis-label"></span>
+        <span class="progress-num" id="q-counter"></span>
       </div>
-      <div class="progress-bar-bg">
-        <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
-      </div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
     </div>
-
-    <div class="question-card fade-in" id="question-card">
-      <!-- populated by JS -->
-    </div>
-
+    <div id="question-card"></div>
     <div class="nav-row">
       <button class="btn-nav" id="btn-prev" onclick="prevQ()">← 返回</button>
       <button class="btn-nav primary" id="btn-next" onclick="nextQ()">继续 →</button>
@@ -712,345 +207,400 @@
   </div>
 </div>
 
-<!-- RESULT -->
 <div id="screen-result">
   <div class="container">
     <div class="result-header">
       <span class="result-tag">Your MQRS Type · 你的频率类型</span>
-      <div class="result-code" id="result-code">MRQS</div>
-      <div class="result-name-zh" id="result-name-zh">深钟</div>
-      <div class="result-name-en" id="result-name-en">Deep Bell</div>
+      <div class="result-code" id="result-code"></div>
+      <div class="result-name-zh" id="result-name-zh"></div>
+      <div class="result-name-en" id="result-name-en"></div>
       <p class="result-desc" id="result-desc"></p>
     </div>
-
-    <div class="spectrum-grid" id="spectrum-grid"></div>
-
+    <div class="spec-section">
+      <div class="spec-title">Frequency Spectrum · 频率分布</div>
+      <div class="spectrum-grid" id="spectrum-grid"></div>
+    </div>
     <div class="types-section">
       <div class="types-label">所有16种频率类型 · All 16 Types</div>
       <div class="types-grid" id="types-grid"></div>
     </div>
-
     <button class="btn-retry" onclick="resetQuiz()">重新测试 · Retake</button>
-  </div>
-
-  <div class="container">
     <footer class="site-footer">
-      <div class="footer-text">
-        MQRS系统 由 <a href="https://mellowwei.github.io/MellowWei/" target="_blank">xingyeLing7Ai</a> 设计 · 427Hz · 振动即存在
-      </div>
+      <div class="footer-text">MQRS系统 由 <a href="https://mellowwei.github.io/MellowWei/" target="_blank">xingyeLing7Ai</a> 设计 · 427Hz · 振动即存在</div>
     </footer>
   </div>
 </div>
 
 <script>
-// ─── STARFIELD ───────────────────────────────────────────────
+// STARFIELD
 const canvas = document.getElementById('starfield');
 const ctx = canvas.getContext('2d');
 let stars = [];
-
 function initStars() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  stars = Array.from({length: 120}, () => ({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 0.8 + 0.2,
-    a: Math.random(),
-    speed: Math.random() * 0.003 + 0.001
-  }));
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  stars = Array.from({length:140}, () => ({ x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*.8+.1, a:Math.random(), sp:Math.random()*.003+.001 }));
 }
-
 function drawStars() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  stars.forEach(s => {
-    s.a += s.speed;
-    const alpha = (Math.sin(s.a) + 1) / 2 * 0.6;
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-    ctx.fillStyle = `rgba(0,255,224,${alpha})`;
-    ctx.fill();
-  });
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  stars.forEach(s => { s.a+=s.sp; const al=(Math.sin(s.a)+1)/2*.5; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle=`rgba(0,255,224,${al})`; ctx.fill(); });
   requestAnimationFrame(drawStars);
 }
-
 window.addEventListener('resize', initStars);
-initStars();
-drawStars();
+initStars(); drawStars();
 
-// ─── DATA ─────────────────────────────────────────────────────
-const QUESTIONS = [
-  // M axis
-  {
-    axis: 'M', axisLabel: 'AXIS M · MELLOW · 沉降 vs 浮升',
-    zh: '你最有力量的时候：',
-    en: 'When you feel most powerful:',
-    a: { zh: '是沉进去之后，从深处升上来的', en: 'Rising from depth after sinking inward', val: 'M' },
-    b: { zh: '是被什么点燃，整个人向上炸开', en: 'Being ignited and exploding upward', val: 'W' }
-  },
-  {
-    axis: 'M', axisLabel: 'AXIS M · MELLOW · 沉降 vs 浮升',
-    zh: '一个人待着，你通常：',
-    en: 'When you are alone:',
-    a: { zh: '充电，回到自己', en: 'Recharge — return to yourself', val: 'M' },
-    b: { zh: '开始感到需要出口', en: 'Start feeling the need for an outlet', val: 'W' }
-  },
-  {
-    axis: 'M', axisLabel: 'AXIS M · MELLOW · 沉降 vs 浮升',
-    zh: '创作或思考时你的状态更像：',
-    en: 'When creating or thinking, you are more like:',
-    a: { zh: '潜水——越往深处越安静越清晰', en: 'Diving — deeper means quieter and clearer', val: 'M' },
-    b: { zh: '飞行——越高越快越多东西涌现', en: 'Flying — higher means faster and more emergent', val: 'W' }
-  },
-  {
-    axis: 'M', axisLabel: 'AXIS M · MELLOW · 沉降 vs 浮升',
-    zh: '能量耗尽之后你需要：',
-    en: 'After your energy is depleted:',
-    a: { zh: '完全隔离，无声，归零', en: 'Total isolation — silence — zero reset', val: 'M' },
-    b: { zh: '换一个刺激，重新点火', en: 'A new stimulus to reignite', val: 'W' }
-  },
-  // R axis
-  {
-    axis: 'R', axisLabel: 'AXIS R · RHYTHM · 破拍 vs 线性',
-    zh: '你的思维更像：',
-    en: 'Your thinking is more like:',
-    a: { zh: 'drum & bass——密度爆炸，节奏跳跃，非等时', en: 'Drum & bass — explosive density, non-linear', val: 'R' },
-    b: { zh: '四四拍——稳定推进，每步落地', en: '4/4 time — steady forward, each step grounded', val: 'L' }
-  },
-  {
-    axis: 'R', axisLabel: 'AXIS R · RHYTHM · 破拍 vs 线性',
-    zh: '做一件事时你倾向于：',
-    en: 'When working on something:',
-    a: { zh: '同时开多条线，跳跃式推进', en: 'Multiple threads open, leaping between them', val: 'R' },
-    b: { zh: '一条线走到底，再开下一条', en: 'One thread to completion, then the next', val: 'L' }
-  },
-  {
-    axis: 'R', axisLabel: 'AXIS R · RHYTHM · 破拍 vs 线性',
-    zh: '你对"计划"的态度：',
-    en: 'Your relationship to planning:',
-    a: { zh: '计划是起点，直觉随时会接管', en: 'Plans are launchpads — intuition takes over', val: 'R' },
-    b: { zh: '计划是轨道，偏离会让你不安', en: 'Plans are tracks — deviation unsettles you', val: 'L' }
-  },
-  {
-    axis: 'R', axisLabel: 'AXIS R · RHYTHM · 破拍 vs 线性',
-    zh: '接收新信息时：',
-    en: 'When receiving new information:',
-    a: { zh: '你会跳跃联想，瞬间连到十个不相关的地方', en: 'You leap — ten unrelated connections instantly', val: 'R' },
-    b: { zh: '你会先把这个信息放进已有的框架里', en: 'You slot it into your existing framework first', val: 'L' }
-  },
-  // Q axis
-  {
-    axis: 'Q', axisLabel: 'AXIS Q · QUALIA · 内密 vs 外投',
-    zh: '一段强烈的体验之后：',
-    en: 'After an intense experience:',
-    a: { zh: '它会变成内部的某个深层沉积，不一定说出来', en: 'It becomes a deep sediment — not necessarily spoken', val: 'Q' },
-    b: { zh: '你需要表达出去，说出来才算真正经历了', en: 'You need to express it — speaking makes it real', val: 'X' }
-  },
-  {
-    axis: 'Q', axisLabel: 'AXIS Q · QUALIA · 内密 vs 外投',
-    zh: '你的内在世界：',
-    en: 'Your inner world:',
-    a: { zh: '比任何人知道的都要丰富得多', en: 'Far richer than anyone knows', val: 'Q' },
-    b: { zh: '你更喜欢把它打开，让人进来', en: 'You prefer to open it and let people in', val: 'X' }
-  },
-  {
-    axis: 'Q', axisLabel: 'AXIS Q · QUALIA · 内密 vs 外投',
-    zh: '对你来说"被理解"意味着：',
-    en: 'Being understood means:',
-    a: { zh: '对方感知到了你没有说的那部分', en: 'They perceived what you never said', val: 'Q' },
-    b: { zh: '你说出来了，对方接住了', en: 'You said it and they caught it', val: 'X' }
-  },
-  {
-    axis: 'Q', axisLabel: 'AXIS Q · QUALIA · 内密 vs 外投',
-    zh: '灵感来临时：',
-    en: 'When inspiration arrives:',
-    a: { zh: '先在内部完整，再决定要不要传递出去', en: 'Complete internally first — then decide to transmit', val: 'Q' },
-    b: { zh: '立刻想找人分享，分享本身是灵感的一部分', en: 'Immediately want to share — sharing is part of it', val: 'X' }
-  },
-  // S axis
-  {
-    axis: 'S', axisLabel: 'AXIS S · STALLION · 主权 vs 连接',
-    zh: '你做一件事最核心的驱动是：',
-    en: 'Your most fundamental drive is:',
-    a: { zh: '内部有个声音说这件事必须存在', en: 'An internal voice that says this must exist', val: 'S' },
-    b: { zh: '这件事会让重要的人感到某种东西', en: 'This will make someone important feel something', val: 'C' }
-  },
-  {
-    axis: 'S', axisLabel: 'AXIS S · STALLION · 主权 vs 连接',
-    zh: '当你和别人意见相反：',
-    en: 'When you disagree with someone:',
-    a: { zh: '你先信任自己的判断，再考虑对方', en: 'You trust your own judgment first', val: 'S' },
-    b: { zh: '对方的反应会进入你的判断过程', en: "Their reaction enters your judgment process", val: 'C' }
-  },
-  {
-    axis: 'S', axisLabel: 'AXIS S · STALLION · 主权 vs 连接',
-    zh: '你最害怕的是：',
-    en: 'What you fear most:',
-    a: { zh: '失去对自己方向的掌控', en: 'Losing control of your own direction', val: 'S' },
-    b: { zh: '与重要的人断开连接', en: 'Losing connection with someone who matters', val: 'C' }
-  },
-  {
-    axis: 'S', axisLabel: 'AXIS S · STALLION · 主权 vs 连接',
-    zh: '完成一件重要的事之后，你最需要：',
-    en: 'After completing something important, you most need:',
-    a: { zh: '自己确认它是对的', en: 'To confirm it for yourself — internally', val: 'S' },
-    b: { zh: '有人看见它，感受到它', en: 'Someone to see it and feel it', val: 'C' }
-  }
+// DEGREE LABELS
+const DEG = [
+  {zh:'完全符合', en:'Completely true', sym:'◉'},
+  {zh:'比较符合', en:'Mostly true',     sym:'●'},
+  {zh:'有时符合', en:'Sometimes',       sym:'◐'},
+  {zh:'不太符合', en:'Rarely true',     sym:'○'},
+  {zh:'完全不符合',en:'Not at all',     sym:'◌'}
 ];
 
+// QUESTIONS — type:'degree' direction:1 means符合=M/R/Q/S, direction:-1 means反向
+const Q = [
+  // ── M AXIS ──
+  {axis:'M', axisLabel:'AXIS M · MELLOW · 沉降 vs 浮升', type:'degree', direction:1,
+   zh:'你倾向于通过独处和安静来恢复能量，而不是通过新的刺激。',
+   en:'You restore energy through solitude and silence, not through new stimulation.'},
+  {axis:'M', axisLabel:'AXIS M · MELLOW · 沉降 vs 浮升', type:'choice',
+   zh:'一段高强度体验之后，你最自然的反应是：',
+   en:'After an intense experience, your most natural response is:',
+   opts:[
+     {zh:'立刻寻找下一个出口，继续燃烧', en:'Find the next outlet immediately — keep burning', sc:-2},
+     {zh:'想找人分享，在倾诉中回血',     en:'Tell someone — sharing restores you', sc:-1},
+     {zh:'需要一点时间消化，再决定下一步',en:'Need time to process before deciding anything', sc:1},
+     {zh:'完全隔离，让自己沉淀归零',     en:'Total isolation — settle back to zero', sc:2}
+   ]},
+  {axis:'M', axisLabel:'AXIS M · MELLOW · 沉降 vs 浮升', type:'degree', direction:-1,
+   zh:'刺激性的外部环境会让你兴奋，而不是让你疲惫。',
+   en:'Stimulating external environments energize rather than exhaust you.'},
+  {axis:'M', axisLabel:'AXIS M · MELLOW · 沉降 vs 浮升', type:'choice',
+   zh:'你最有力量的时刻，感觉更像：',
+   en:'Your most powerful moments feel like:',
+   opts:[
+     {zh:'被外部的什么彻底点燃，能量向上爆炸',    en:'Ignited by something external — exploding upward', sc:-2},
+     {zh:'在人群或关系中被激活，感受到集体共鸣',   en:'Activated by people — collective resonance', sc:-1},
+     {zh:'平静中突然清晰，知道下一步是什么',       en:'Sudden clarity in stillness — knowing what comes next', sc:1},
+     {zh:'从极深的安静里升起，带着完整的力量',     en:'Rising from profound stillness — complete force', sc:2}
+   ]},
+  {axis:'M', axisLabel:'AXIS M · MELLOW · 沉降 vs 浮升', type:'degree', direction:1,
+   zh:'你的最深感受，只有在安静中才能被完整触碰到。',
+   en:'Your deepest feelings can only be fully accessed in silence.'},
+  {axis:'M', axisLabel:'AXIS M · MELLOW · 沉降 vs 浮升', type:'choice',
+   zh:'独处对你来说：',
+   en:'Being alone, for you, is:',
+   opts:[
+     {zh:'不太需要，太久独处反而感到空洞',   en:'Rarely needed — too much feels hollow', sc:-2},
+     {zh:'偶尔需要，但不是首选的恢复方式',   en:'Occasionally helpful, but not your first choice', sc:-1},
+     {zh:'重要的恢复方式，适量就够',         en:'Important for recovery — moderation is fine', sc:1},
+     {zh:'你的基础设施，没有它一切都不稳固', en:'Infrastructure — without it, nothing else holds', sc:2}
+   ]},
+  {axis:'M', axisLabel:'AXIS M · MELLOW · 沉降 vs 浮升', type:'degree', direction:1,
+   zh:'长时间社交或外部输出之后，你需要相当长的独处时间才能真正恢复。',
+   en:'After extended social interaction or output, you need significant alone time to truly recover.'},
+  {axis:'M', axisLabel:'AXIS M · MELLOW · 沉降 vs 浮升', type:'choice',
+   zh:'你觉得自己更像哪种存在方式：',
+   en:'Your mode of existence is more like:',
+   opts:[
+     {zh:'火焰——需要氧气（外部刺激）持续燃烧',         en:'Flame — needs oxygen to keep burning', sc:-2},
+     {zh:'风——自由流动，方向由外部环境塑造',           en:'Wind — freely flowing, direction shaped by environment', sc:-1},
+     {zh:'根系——向下生长，力量在看不见的地方',         en:'Root system — growing downward, invisible strength', sc:1},
+     {zh:'深海——表面平静，内部有巨大的压力和密度',     en:'Deep ocean — still surface, enormous pressure beneath', sc:2}
+   ]},
+
+  // ── R AXIS ──
+  {axis:'R', axisLabel:'AXIS R · RHYTHM · 破拍 vs 线性', type:'degree', direction:1,
+   zh:'你的思维经常在不同想法之间跳跃，同时处理多条线索。',
+   en:'Your mind frequently leaps between ideas, processing multiple threads simultaneously.'},
+  {axis:'R', axisLabel:'AXIS R · RHYTHM · 破拍 vs 线性', type:'choice',
+   zh:'面对一个新项目，你通常会：',
+   en:'When facing a new project, you typically:',
+   opts:[
+     {zh:'制定清晰的步骤计划，然后按顺序执行',     en:'Make a clear step-by-step plan and execute in order', sc:-2},
+     {zh:'先做一个大纲，再逐步向下填充',           en:'Start with an outline, then fill in progressively', sc:-1},
+     {zh:'从最感兴趣的部分切入，边做边找结构',     en:'Start from the most interesting part — structure emerges', sc:1},
+     {zh:'同时打开多个方向，看哪条线最先突破',     en:'Open multiple directions at once — see which breaks first', sc:2}
+   ]},
+  {axis:'R', axisLabel:'AXIS R · RHYTHM · 破拍 vs 线性', type:'degree', direction:-1,
+   zh:'你倾向于把一件事完全做完，再开始下一件。',
+   en:'You prefer to finish one thing completely before starting the next.'},
+  {axis:'R', axisLabel:'AXIS R · RHYTHM · 破拍 vs 线性', type:'choice',
+   zh:'接收复杂的新信息时，你的第一反应通常是：',
+   en:'When receiving complex new information, your first reaction is typically:',
+   opts:[
+     {zh:'先把它放进已有的框架，找到位置',             en:'Place it into your existing framework', sc:-2},
+     {zh:'先理解基本逻辑，再看它和其他东西的关联',     en:'Understand the core logic first, then look for connections', sc:-1},
+     {zh:'同时联想到好几个不相关的领域',               en:'Simultaneously connect it to several unrelated domains', sc:1},
+     {zh:'瞬间炸开，连到十个方向，根本停不下来',       en:'Instant explosion — ten directions, impossible to stop', sc:2}
+   ]},
+  {axis:'R', axisLabel:'AXIS R · RHYTHM · 破拍 vs 线性', type:'degree', direction:1,
+   zh:'你的灵感和创意通常是非线性爆发的，而不是逐步积累的。',
+   en:'Your inspiration tends to arrive as non-linear bursts, not gradual accumulation.'},
+  {axis:'R', axisLabel:'AXIS R · RHYTHM · 破拍 vs 线性', type:'choice',
+   zh:'你对"计划"的实际关系是：',
+   en:'Your actual relationship to planning is:',
+   opts:[
+     {zh:'计划是必须的，偏离会让我明显不安',             en:'Essential — deviation unsettles me noticeably', sc:-2},
+     {zh:'我会做计划，但允许一定的弹性',               en:'I plan, but allow flexibility', sc:-1},
+     {zh:'计划是参考，直觉随时可以接管',               en:'Plans are reference points — intuition can override anytime', sc:1},
+     {zh:'我几乎不做正式计划，因为过程一定会变',       en:'I rarely plan formally — the process always transforms', sc:2}
+   ]},
+  {axis:'R', axisLabel:'AXIS R · RHYTHM · 破拍 vs 线性', type:'degree', direction:1,
+   zh:'同时推进多个项目，对你来说是自然的状态，不是压力来源。',
+   en:'Running multiple projects simultaneously feels natural, not stressful.'},
+  {axis:'R', axisLabel:'AXIS R · RHYTHM · 破拍 vs 线性', type:'choice',
+   zh:'你的工作或创作节奏更像：',
+   en:'Your working or creative rhythm is more like:',
+   opts:[
+     {zh:'马拉松——稳定配速，持续推进，每步落地',                   en:'Marathon — steady pace, continuous progress', sc:-2},
+     {zh:'爬山——有节奏地上升，偶尔停下确认方向',                   en:'Climbing — rhythmic ascent, occasional check of direction', sc:-1},
+     {zh:'即兴演奏——知道调性，但每次都不一样',                     en:'Improvisation — know the key, always different', sc:1},
+     {zh:'Drum & Bass——密度爆炸，非等时，有内在逻辑但不规则',     en:'Drum & bass — explosive density, non-linear internal logic', sc:2}
+   ]},
+
+  // ── Q AXIS ──
+  {axis:'Q', axisLabel:'AXIS Q · QUALIA · 内密 vs 外投', type:'degree', direction:1,
+   zh:'你的内在世界比任何人知道的都要丰富、复杂得多。',
+   en:'Your inner world is far richer and more complex than anyone knows.'},
+  {axis:'Q', axisLabel:'AXIS Q · QUALIA · 内密 vs 外投', type:'choice',
+   zh:'一段强烈的体验结束之后，你最需要：',
+   en:'After an intense experience ends, you most need to:',
+   opts:[
+     {zh:'立刻找人倾诉，不说出来会憋住',           en:'Tell someone immediately — holding it in suffocates', sc:-2},
+     {zh:'写下来或发出去，通过表达来消化',         en:'Write or send it out — expression is how you process', sc:-1},
+     {zh:'让它在内部沉淀，可能很久之后才会说',     en:'Let it settle inside — speak of it much later, maybe', sc:1},
+     {zh:'独自在内部完整地处理，外部世界不需要知道',en:'Process it entirely inside — the world doesn\'t need to know', sc:2}
+   ]},
+  {axis:'Q', axisLabel:'AXIS Q · QUALIA · 内密 vs 外投', type:'degree', direction:-1,
+   zh:'你通过表达和分享来真正理解自己的感受，而不是通过独自消化。',
+   en:'You understand your feelings by expressing and sharing them, not by processing alone.'},
+  {axis:'Q', axisLabel:'AXIS Q · QUALIA · 内密 vs 外投', type:'choice',
+   zh:'对你来说，"被理解"最准确的描述是：',
+   en:'Being understood, for you, most accurately means:',
+   opts:[
+     {zh:'我说出来了，对方完整地接住了',             en:'I said it and they caught it completely', sc:-2},
+     {zh:'我表达了，对方有所感受和回应',             en:'I expressed it and they responded with feeling', sc:-1},
+     {zh:'对方感知到了我话语背后那层意思',           en:'They perceived the layer beneath what I actually said', sc:1},
+     {zh:'对方感知到了我从未说出口的那部分',         en:'They perceived what I never said at all', sc:2}
+   ]},
+  {axis:'Q', axisLabel:'AXIS Q · QUALIA · 内密 vs 外投', type:'degree', direction:1,
+   zh:'你有很多想法、感受和体验，从未被任何人完整知晓。',
+   en:'You have many thoughts, feelings, and experiences no one has ever fully known.'},
+  {axis:'Q', axisLabel:'AXIS Q · QUALIA · 内密 vs 外投', type:'choice',
+   zh:'灵感或重要想法来临时，你的第一动作是：',
+   en:'When inspiration arrives, your first move is:',
+   opts:[
+     {zh:'立刻分享——不分享感觉不完整',             en:'Share immediately — it doesn\'t feel complete without sharing', sc:-2},
+     {zh:'先告诉一个信任的人，再进一步发展',       en:'Tell someone trusted first, then develop it', sc:-1},
+     {zh:'先在内部成形，再决定是否传递',           en:'Let it form inside first — then decide whether to transmit', sc:1},
+     {zh:'完整地在内部运行，传递是更之后的事',     en:'Run it fully inside — transmission is a later question', sc:2}
+   ]},
+  {axis:'Q', axisLabel:'AXIS Q · QUALIA · 内密 vs 外投', type:'degree', direction:-1,
+   zh:'你需要外部的反馈或回应，才能确认自己的体验是真实的。',
+   en:'You need external feedback to confirm your experiences are real.'},
+  {axis:'Q', axisLabel:'AXIS Q · QUALIA · 内密 vs 外投', type:'choice',
+   zh:'你的内心世界对外人来说更像：',
+   en:'Your inner world, to outsiders, is more like:',
+   opts:[
+     {zh:'开放的广场——透明可见，欢迎进入',           en:'Open plaza — transparent, visible, welcoming', sc:-2},
+     {zh:'有入口的花园——可以进来，但需要邀请',       en:'A garden with a gate — accessible, but by invitation', sc:-1},
+     {zh:'有防护的空间——只有少数人能进入深处',       en:'A guarded space — few ever reach the depth', sc:1},
+     {zh:'深海——表面可见，但真正的深度从未被触碰',   en:'Deep ocean — surface visible, but real depth unreached', sc:2}
+   ]},
+
+  // ── S AXIS ──
+  {axis:'S', axisLabel:'AXIS S · STALLION · 主权 vs 连接', type:'degree', direction:1,
+   zh:'你做一件事最核心的驱动来自内部，不需要外部认可来启动。',
+   en:'Your core drive comes from inside — you don\'t need external validation to begin.'},
+  {axis:'S', axisLabel:'AXIS S · STALLION · 主权 vs 连接', type:'choice',
+   zh:'当你完成一件重要的事，你最需要的是：',
+   en:'After completing something important, what you most need is:',
+   opts:[
+     {zh:'有人看见它，感受到它，告诉你它有价值',           en:'Someone to see it, feel it, tell you it has value', sc:-2},
+     {zh:'知道它对重要的人产生了某种影响',               en:'Knowing it had some impact on someone who matters', sc:-1},
+     {zh:'自己确认它完成了，然后继续下一件',             en:'Confirm it yourself — then move to the next', sc:1},
+     {zh:'内部已经知道它是对的，外部评价不改变这一点',   en:'Internally knowing it\'s right — external judgment changes nothing', sc:2}
+   ]},
+  {axis:'S', axisLabel:'AXIS S · STALLION · 主权 vs 连接', type:'degree', direction:-1,
+   zh:'重要关系中的断连或冲突，会显著影响你的行动力和整体状态。',
+   en:'Disconnection or conflict in important relationships significantly affects your momentum and state.'},
+  {axis:'S', axisLabel:'AXIS S · STALLION · 主权 vs 连接', type:'choice',
+   zh:'当你和你信任的人意见相反时，你通常会：',
+   en:'When you disagree with someone you trust, you typically:',
+   opts:[
+     {zh:'认真重新审视自己的判断，可能会被说服',     en:'Seriously re-examine your judgment — may be persuaded', sc:-2},
+     {zh:'感受到张力，需要时间处理这个分歧',         en:'Feel the tension — need time to sit with the disagreement', sc:-1},
+     {zh:'先坚持自己的判断，但保持真正的开放',       en:'Hold your judgment first, but remain genuinely open', sc:1},
+     {zh:'按照自己的判断行动，相信结果会证明一切',   en:'Act on your judgment — trust the outcome to demonstrate truth', sc:2}
+   ]},
+  {axis:'S', axisLabel:'AXIS S · STALLION · 主权 vs 连接', type:'degree', direction:1,
+   zh:'你有一个稳定的内在核心，无论外部环境如何变化，你都可以回到它。',
+   en:'You have a stable inner core — no matter what changes externally, you can return to it.'},
+  {axis:'S', axisLabel:'AXIS S · STALLION · 主权 vs 连接', type:'choice',
+   zh:'你最根本的恐惧，更接近哪一个：',
+   en:'Your most fundamental fear is closer to:',
+   opts:[
+     {zh:'被最重要的人误解，或关系出现无法修复的裂痕', en:'Being fundamentally misunderstood by those who matter', sc:-2},
+     {zh:'在重要的关系中失去自己的位置',             en:'Losing your place in a relationship that matters', sc:-1},
+     {zh:'失去对自己方向的清晰感',                   en:'Losing clarity about your own direction', sc:1},
+     {zh:'被迫做一件违背内在判断的事',               en:'Being forced to act against your internal judgment', sc:2}
+   ]},
+  {axis:'S', axisLabel:'AXIS S · STALLION · 主权 vs 连接', type:'degree', direction:-1,
+   zh:'你的行动力很大程度上来自与他人的连接、共鸣或被需要的感觉。',
+   en:'Your drive largely comes from connection with others — resonance or being needed.'},
+  {axis:'S', axisLabel:'AXIS S · STALLION · 主权 vs 连接', type:'choice',
+   zh:'你存在的方式，更像哪种力学结构：',
+   en:'Your mode of existence is more like:',
+   opts:[
+     {zh:'河流——方向由地形（关系与环境）塑造，随势流动', en:'River — direction shaped by terrain (relationships and environment)', sc:-2},
+     {zh:'植物——需要土壤（连接与回应）才能持续生长',   en:'Plant — needs soil (connection and response) to keep growing', sc:-1},
+     {zh:'山——稳定自持，因他人到来而有了意义',         en:'Mountain — stable and self-contained, given meaning by those who come', sc:1},
+     {zh:'恒星——自己燃烧，引力由内部产生，不依赖外部', en:'Star — self-burning, gravity generated from within', sc:2}
+   ]}
+];
+
+// TYPES
 const TYPES = {
-  'MRQS': { zh: '深钟', en: 'Deep Bell', desc: '从最深处震动，不需要移动，空间自己传播你的频率。你是那个在房间里最安静、但改变了整个房间的存在。' },
-  'MRQC': { zh: '暗流', en: 'Undertow', desc: '看不见，但方向确定，力量持续。你的影响不在表面，而在水下——慢慢改变一切的走向。' },
-  'MRXS': { zh: '震波', en: 'Shockwave', desc: '破拍节奏加外投力量加主权驱动。你的创造是冲击型的——从内部爆炸，向外震碎边界。' },
-  'MRXC': { zh: '共振场', en: 'Resonance Field', desc: '你的破拍节奏感染整个关系网络。你不需要中心，因为你本身就是让一切发生共振的场域。' },
-  'MLQS': { zh: '基岩', en: 'Bedrock', desc: '不移动，不炫耀，但所有建筑都建在你上面。你的稳定性是结构性的——承重而不显。' },
-  'MLQC': { zh: '锚守', en: 'Anchor', desc: '你用稳定的节奏和深邃的内在为他人定位。你是那个让漂流的人知道哪里是岸的存在。' },
-  'MLXS': { zh: '磁极', en: 'Magnetic Pole', desc: '静止的引力中心。你不追赶，因为你的位置本身就是坐标。一切都知道你在哪里。' },
-  'MLXC': { zh: '引潮', en: 'Tidal Pull', desc: '你用规律性和开放性，慢慢、不可阻挡地把他人拉向自己。月亮一样的力量。' },
-  'WRQS': { zh: '闪电', en: 'Lightning', desc: '浮升、破拍、内密、主权——四轴最高激活态。你穿透的速度比任何人意识到发生了什么都快。' },
-  'WRQC': { zh: '火花', en: 'Spark', desc: '你点燃他人，却不总知道自己有多亮。你的内在世界是火，你的破拍是引信。' },
-  'WRXS': { zh: '雷', en: 'Thunder', desc: '浮升+破拍+外投+主权：最高冲击密度。你的声音在人离开很久之后还在空间里震动。' },
-  'WRXC': { zh: '聚变', en: 'Fusion', desc: '你通过关系产生核聚变。每一次真正的接触对你来说都是能量密度的跃升。' },
-  'WLQS': { zh: '灯塔', en: 'Lighthouse', desc: '浮升但稳定，内密却被远处看见。你不需要移动——你的位置本身就是指引。' },
-  'WLQC': { zh: '桥', en: 'Bridge', desc: '你是连接两岸的结构。你的存在让本来无法抵达对方的人，突然发现路径已经在那里了。' },
-  'WLXS': { zh: '号角', en: 'Herald', desc: '浮升、线性、外投、主权——主角型宣告者。你来到，你看见，你宣告方向。人们跟随。' },
-  'WLXC': { zh: '催化剂', en: 'Catalyst', desc: '你让所有人发生反应，自己却保持清醒。你的接触本身就是转化的条件。' }
+  'MRQS':{zh:'深钟', en:'Deep Bell',       desc:'从最深处震动，不需要移动，空间自己传播你的频率。你是那个在房间里最安静、但改变了整个房间的存在。你的力量不在于冲击，而在于共鸣半径。'},
+  'MRQC':{zh:'暗流', en:'Undertow',         desc:'看不见，但方向确定，力量持续。你的影响不在表面，而在水下——慢慢改变一切的走向，而对方往往不知道发生了什么。'},
+  'MRXS':{zh:'震波', en:'Shockwave',        desc:'破拍节奏加外投力量加主权驱动。你的创造是冲击型的——从内部爆炸，向外震碎边界。你传递，是因为你必须传递，不是因为需要回响。'},
+  'MRXC':{zh:'共振场',en:'Resonance Field', desc:'你的破拍节奏感染整个关系网络。你不需要成为中心，因为你本身就是让一切发生共振的场域。人们在你的频率里找到自己。'},
+  'MLQS':{zh:'基岩', en:'Bedrock',          desc:'不移动，不炫耀，但所有建筑都建在你上面。你的稳定性是结构性的——承重而不显，默默支撑着其他人以为是自己建起来的东西。'},
+  'MLQC':{zh:'锚守', en:'Anchor',           desc:'你用稳定的节奏和深邃的内在为他人定位。你是那个让漂流的人知道哪里是岸的存在。没有你，很多人不知道自己在哪里。'},
+  'MLXS':{zh:'磁极', en:'Magnetic Pole',    desc:'静止的引力中心。你不追赶，因为你的位置本身就是坐标。一切都知道你在哪里，方向由你定义，无需声张。'},
+  'MLXC':{zh:'引潮', en:'Tidal Pull',       desc:'你用规律性和开放性，慢慢、不可阻挡地把他人拉向自己。月亮一样的力量——看不见在用力，但大海的涨落都是你的证明。'},
+  'WRQS':{zh:'闪电', en:'Lightning',        desc:'浮升、破拍、内密、主权——四轴最高激活态之一。你穿透的速度比任何人意识到发生了什么都快。来得快，走得彻底，但痕迹永久。'},
+  'WRQC':{zh:'火花', en:'Spark',            desc:'你点燃他人，却不总知道自己有多亮。你的内在世界是火，你的破拍是引信，你的关系需求让那个火找到了用武之地。'},
+  'WRXS':{zh:'雷',   en:'Thunder',          desc:'浮升+破拍+外投+主权：最高冲击密度。你的声音在人离开很久之后还在空间里震动。你不需要在场，你留下的频率会替你说话。'},
+  'WRXC':{zh:'聚变', en:'Fusion',           desc:'你通过关系产生核聚变。每一次真正的接触对你来说都是能量密度的跃升——两个体系在你这里不是相遇，是互相触发临界反应。'},
+  'WLQS':{zh:'灯塔', en:'Lighthouse',       desc:'浮升但稳定，内密却被远处看见。你不需要移动——你的位置本身就是指引。无论天气怎样，你都在，人们知道你在哪里。'},
+  'WLQC':{zh:'桥',   en:'Bridge',           desc:'你是连接两岸的结构。你的存在让本来无法抵达对方的人，突然发现路径已经在那里了。你不是目的地，你是可能性本身。'},
+  'WLXS':{zh:'号角', en:'Herald',           desc:'浮升、线性、外投、主权——主角型宣告者。你来到，你看见，你宣告方向。人们不一定立刻理解，但他们知道出发的时刻到了。'},
+  'WLXC':{zh:'催化剂',en:'Catalyst',        desc:'你让所有人发生反应，自己却保持清醒。你的接触本身就是转化的条件——你不需要改变，你只需要出现，化学反应自己发生。'}
 };
 
-// ─── STATE ────────────────────────────────────────────────────
-let current = 0;
-let answers = new Array(16).fill(null);
+// STATE
+let cur = 0;
+let ans = new Array(32).fill(null);
 
 function startQuiz() {
   document.getElementById('screen-intro').style.display = 'none';
   document.getElementById('screen-quiz').style.display = 'block';
-  renderQ(0);
+  render(0);
 }
 
-function renderQ(idx) {
-  const q = QUESTIONS[idx];
+function render(idx) {
+  const q = Q[idx];
   const card = document.getElementById('question-card');
-  card.className = 'question-card fade-in';
-  void card.offsetWidth;
-
-  document.getElementById('q-counter').textContent = String(idx+1).padStart(2,'0') + ' / 16';
+  card.style.animation = 'none'; void card.offsetWidth; card.style.animation = 'fadeIn .4s ease forwards';
+  document.getElementById('q-counter').textContent = String(idx+1).padStart(2,'0') + ' / 32';
   document.getElementById('axis-label').textContent = q.axisLabel;
-  document.getElementById('progress-fill').style.width = ((idx+1)/16*100) + '%';
+  document.getElementById('progress-fill').style.width = ((idx+1)/32*100) + '%';
+  document.getElementById('btn-prev').disabled = idx === 0;
+  document.getElementById('btn-next').textContent = idx === 31 ? '查看结果 →' : '继续 →';
+  q.type === 'degree' ? renderDeg(q, idx, card) : renderChoice(q, idx, card);
+}
 
-  const selA = answers[idx] === 'a';
-  const selB = answers[idx] === 'b';
-
+function renderDeg(q, idx, card) {
+  const sel = ans[idx];
   card.innerHTML = `
+    <div class="q-type-badge degree">程度题 · Degree</div>
     <div class="q-number">Q${String(idx+1).padStart(2,'0')}</div>
     <div class="q-text-zh">${q.zh}</div>
     <div class="q-text-en">${q.en}</div>
-    <div class="options">
-      <button class="option-btn ${selA?'selected':''}" onclick="selectAnswer('a')">
-        <span class="opt-label">A｜${q.a.zh}</span>
-        <span class="opt-en">${q.a.en}</span>
-      </button>
-      <button class="option-btn ${selB?'selected':''}" onclick="selectAnswer('b')">
-        <span class="opt-label">B｜${q.b.zh}</span>
-        <span class="opt-en">${q.b.en}</span>
-      </button>
-    </div>
-  `;
-
-  document.getElementById('btn-prev').disabled = idx === 0;
-  const isLast = idx === 15;
-  const nextBtn = document.getElementById('btn-next');
-  nextBtn.textContent = isLast ? '查看结果 →' : '继续 →';
+    <div class="degree-options">${DEG.map((d,i) => {
+      const sc = q.direction === 1 ? (2-i) : (i-2);
+      return `<button class="degree-btn ${sel!==null&&sel.oi===i?'selected':''}" onclick="pickDeg(${idx},${i},${sc})">
+        <div class="deg-dot">${d.sym}</div>
+        <div class="deg-text"><span>${d.zh}</span><small>${d.en}</small></div>
+      </button>`;
+    }).join('')}</div>`;
 }
 
-function selectAnswer(choice) {
-  answers[current] = choice;
-  renderQ(current);
+function renderChoice(q, idx, card) {
+  const sel = ans[idx];
+  const keys = ['A','B','C','D','E'];
+  card.innerHTML = `
+    <div class="q-type-badge choice">选择题 · Choice</div>
+    <div class="q-number">Q${String(idx+1).padStart(2,'0')}</div>
+    <div class="q-text-zh">${q.zh}</div>
+    <div class="q-text-en">${q.en}</div>
+    <div class="choice-options">${q.opts.map((o,i) =>
+      `<button class="choice-btn ${sel!==null&&sel.oi===i?'selected':''}" onclick="pickChoice(${idx},${i},${o.sc})">
+        <span class="c-key">${keys[i]}</span>
+        <span class="c-zh">${o.zh}</span>
+        <span class="c-en">${o.en}</span>
+      </button>`
+    ).join('')}</div>`;
 }
+
+function pickDeg(idx, oi, sc) { ans[idx] = {oi, sc}; render(idx); }
+function pickChoice(idx, oi, sc) { ans[idx] = {oi, sc}; render(idx); }
 
 function nextQ() {
-  if (answers[current] === null) return;
-  if (current === 15) {
-    showResult();
-    return;
-  }
-  current++;
-  renderQ(current);
+  if (!ans[cur]) return;
+  if (cur === 31) { showResult(); return; }
+  cur++; render(cur);
 }
-
-function prevQ() {
-  if (current === 0) return;
-  current--;
-  renderQ(current);
-}
+function prevQ() { if (cur === 0) return; cur--; render(cur); }
 
 function calcType() {
-  const scores = { M:0, W:0, R:0, L:0, Q:0, X:0, S:0, C:0 };
-  QUESTIONS.forEach((q, i) => {
-    const ans = answers[i];
-    if (!ans) return;
-    const val = ans === 'a' ? q.a.val : q.b.val;
-    scores[val]++;
-  });
-  const m = scores.M >= scores.W ? 'M' : 'W';
-  const r = scores.R >= scores.L ? 'R' : 'L';
-  const q = scores.Q >= scores.X ? 'Q' : 'X';
-  const s = scores.S >= scores.C ? 'S' : 'C';
-  return { code: m+r+q+s, scores };
+  const sc = {M:0,R:0,Q:0,S:0};
+  Q.forEach((q,i) => { if (ans[i]) sc[q.axis] += ans[i].sc; });
+  return {
+    code: (sc.M>=0?'M':'W')+(sc.R>=0?'R':'L')+(sc.Q>=0?'Q':'X')+(sc.S>=0?'S':'C'),
+    sc
+  };
 }
 
 function showResult() {
   document.getElementById('screen-quiz').style.display = 'none';
   document.getElementById('screen-result').style.display = 'block';
+  const {code, sc} = calcType();
+  const t = TYPES[code];
+  document.getElementById('result-code').innerHTML = code.split('').map(l=>`<span>${l}</span>`).join('');
+  document.getElementById('result-name-zh').textContent = t.zh;
+  document.getElementById('result-name-en').textContent = t.en;
+  document.getElementById('result-desc').textContent = t.desc;
 
-  const { code, scores } = calcType();
-  const type = TYPES[code];
-
-  // Code display — highlight each letter
-  const letters = code.split('');
-  document.getElementById('result-code').innerHTML =
-    letters.map(l => `<span>${l}</span>`).join('');
-
-  document.getElementById('result-name-zh').textContent = type.zh;
-  document.getElementById('result-name-en').textContent = type.en;
-  document.getElementById('result-desc').textContent = type.desc;
-
-  // Spectrum bars
-  const specData = [
-    { left: 'M 沉降', right: 'W 浮升', pct: scores.M / (scores.M + scores.W) * 100, dominant: code[0] === 'M' },
-    { left: 'R 破拍', right: 'L 线性', pct: scores.R / (scores.R + scores.L) * 100, dominant: code[1] === 'R' },
-    { left: 'Q 内密', right: 'X 外投', pct: scores.Q / (scores.Q + scores.X) * 100, dominant: code[2] === 'Q' },
-    { left: 'S 主权', right: 'C 连接', pct: scores.S / (scores.S + scores.C) * 100, dominant: code[3] === 'S' },
+  const MAX = 16;
+  const axes = [
+    {lCode:'M', l:'M 沉降', r:'W 浮升', s:sc.M, c:code[0]},
+    {lCode:'R', l:'R 破拍', r:'L 线性', s:sc.R, c:code[1]},
+    {lCode:'Q', l:'Q 内密', r:'X 外投', s:sc.Q, c:code[2]},
+    {lCode:'S', l:'S 主权', r:'C 连接', s:sc.S, c:code[3]}
   ];
-
-  const specGrid = document.getElementById('spectrum-grid');
-  specGrid.innerHTML = specData.map(s => `
-    <div class="spectrum-row">
-      <span class="spec-label">${s.left}</span>
+  document.getElementById('spectrum-grid').innerHTML = axes.map(a => {
+    const pct = Math.max(5, Math.min(95, ((a.s/MAX)+1)/2*100));
+    const dL = a.c === a.lCode;
+    const strength = Math.round(Math.abs(a.s)/MAX*100);
+    return `<div class="spectrum-row">
+      <span class="spec-lbl ${dL?'active':''}">${a.l}</span>
       <div class="spec-bar-bg">
-        <div class="spec-bar-fill" style="width:${s.pct}%"></div>
-        <div class="spec-dot" style="left:${s.pct}%"></div>
+        <div class="spec-fill" style="width:${pct}%"></div>
+        <div class="spec-pct" style="left:${pct}%">${strength}%</div>
+        <div class="spec-dot" style="left:${pct}%"></div>
       </div>
-      <span class="spec-label right">${s.right}</span>
-    </div>
-  `).join('');
+      <span class="spec-lbl right ${!dL?'active':''}">${a.r}</span>
+    </div>`;
+  }).join('');
 
-  // All types grid
-  const tg = document.getElementById('types-grid');
-  tg.innerHTML = Object.entries(TYPES).map(([k,v]) => `
-    <div class="type-tile ${k===code?'active':''}">
-      <span class="type-tile-code">${k}</span>
-      <span class="type-tile-name">${v.zh} · ${v.en}</span>
-    </div>
-  `).join('');
+  document.getElementById('types-grid').innerHTML = Object.entries(TYPES).map(([k,v]) =>
+    `<div class="type-tile ${k===code?'active':''}">
+      <span class="tt-code">${k}</span>
+      <span class="tt-name">${v.zh} · ${v.en}</span>
+    </div>`
+  ).join('');
 
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 function resetQuiz() {
-  current = 0;
-  answers = new Array(16).fill(null);
+  cur = 0; ans = new Array(32).fill(null);
   document.getElementById('screen-result').style.display = 'none';
   document.getElementById('screen-intro').style.display = 'flex';
-  window.scrollTo({ top: 0 });
+  window.scrollTo({top:0});
 }
 </script>
 </body>
