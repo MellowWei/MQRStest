@@ -71,46 +71,28 @@
     display:flex; align-items:center; gap:14px; background:transparent;
     border:1px solid var(--border); border-left:2px solid transparent;
     color:var(--text); padding:13px 18px; cursor:pointer; font-family:var(--mono);
-    text-align:left; transition:all .25s ease; width:100%;
-    position:relative;
+    text-align:left; transition:all .25s ease; width:100%; position:relative;
   }
   .deg-dot { width:26px; height:26px; border-radius:50%; border:1px solid var(--border); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--text-dim); transition:all .25s; }
   .deg-text span { display:block; font-family:var(--serif); font-size:16px; font-weight:300; color:var(--text-bright); line-height:1.3; }
   .deg-text small { font-size:12px; color:var(--text-dim); font-family:var(--serif); font-style:italic; }
-  .degree-btn:hover {
-    border-color:var(--accent); border-left-color:var(--accent);
-    background:rgba(0,255,224,0.03); transform:translateX(3px);
-  }
+  .degree-btn:hover { border-color:var(--accent); border-left-color:var(--accent); background:rgba(0,255,224,0.03); transform:translateX(3px); }
   .degree-btn:hover .deg-dot { border-color:var(--accent); color:var(--accent); }
   .degree-btn:hover .deg-text small { color:var(--text); }
-  .degree-btn.selected {
-    border-color:var(--accent); border-left-color:var(--accent);
-    background:rgba(0,255,224,0.05); transform:translateX(3px);
-  }
+  .degree-btn.selected { border-color:var(--accent); border-left-color:var(--accent); background:rgba(0,255,224,0.05); transform:translateX(3px); }
   .degree-btn.selected .deg-dot { background:var(--accent); border-color:var(--accent); color:var(--bg); }
   .degree-btn.selected .deg-text small { color:var(--text); }
 
   /* CHOICE */
   .choice-options { display:flex; flex-direction:column; gap:10px; }
-  .choice-btn {
-    display:block; width:100%; text-align:left; background:transparent;
-    border:1px solid var(--border); border-left:2px solid transparent;
-    padding:16px 20px; cursor:pointer; transition:all .25s ease;
-    position:relative;
-  }
+  .choice-btn { display:block; width:100%; text-align:left; background:transparent; border:1px solid var(--border); border-left:2px solid transparent; padding:16px 20px; cursor:pointer; transition:all .25s ease; position:relative; }
   .c-key { font-size:9px; letter-spacing:.25em; color:var(--text-dim); display:block; margin-bottom:5px; transition:color .2s; }
   .c-zh { font-family:var(--serif); font-size:17px; font-weight:300; color:var(--text-bright); display:block; margin-bottom:4px; line-height:1.4; }
   .c-en { font-family:var(--serif); font-style:italic; font-size:13px; color:var(--text-dim); display:block; line-height:1.4; transition:color .2s; }
-  .choice-btn:hover {
-    border-color:var(--accent); border-left-color:var(--accent);
-    background:rgba(0,255,224,0.03); transform:translateX(3px);
-  }
+  .choice-btn:hover { border-color:var(--accent); border-left-color:var(--accent); background:rgba(0,255,224,0.03); transform:translateX(3px); }
   .choice-btn:hover .c-key { color:var(--accent); }
   .choice-btn:hover .c-en { color:var(--text); }
-  .choice-btn.selected {
-    border-color:var(--accent); border-left-color:var(--accent);
-    background:rgba(0,255,224,0.06); transform:translateX(3px);
-  }
+  .choice-btn.selected { border-color:var(--accent); border-left-color:var(--accent); background:rgba(0,255,224,0.06); transform:translateX(3px); }
   .choice-btn.selected .c-key { color:var(--accent); }
   .choice-btn.selected .c-en { color:var(--text); }
 
@@ -123,17 +105,32 @@
 
   /* RESULT */
   #screen-result { display:none; min-height:100vh; padding:80px 0; }
-  .result-header { text-align:center; margin-bottom:60px; }
+  .result-header { text-align:center; margin-bottom:56px; }
   .result-tag { font-size:10px; letter-spacing:.4em; color:var(--text-dim); margin-bottom:20px; display:block; text-transform:uppercase; }
   .result-code { font-family:var(--serif); font-size:clamp(68px,14vw,116px); font-weight:300; letter-spacing:.2em; color:var(--text-bright); line-height:1; margin-bottom:8px; }
   .result-code span { color:var(--accent); }
   .result-name-zh { font-family:var(--serif); font-size:clamp(28px,5vw,44px); font-weight:300; color:var(--accent); margin-bottom:4px; }
-  .result-name-en { font-family:var(--serif); font-style:italic; font-size:18px; color:var(--text-dim); margin-bottom:44px; }
-  .result-desc { font-family:var(--serif); font-size:18px; font-weight:300; line-height:1.9; color:var(--text); max-width:540px; margin:0 auto; }
+  .result-name-en { font-family:var(--serif); font-style:italic; font-size:18px; color:var(--text-dim); margin-bottom:36px; }
+  .result-tagline { font-family:var(--serif); font-size:19px; font-weight:300; font-style:italic; line-height:1.8; color:var(--text); max-width:540px; margin:0 auto; }
 
-  .spec-section { margin:56px 0; }
-  .spec-title { font-size:10px; letter-spacing:.4em; color:var(--text-dim); text-transform:uppercase; margin-bottom:28px; text-align:center; }
-  .spectrum-grid { display:grid; gap:32px; }
+  /* SECTION HEADING */
+  .sec-head { text-align:center; margin:64px 0 32px; }
+  .sec-head .sh-zh { font-family:var(--serif); font-size:24px; font-weight:300; color:var(--text-bright); letter-spacing:.05em; }
+  .sec-head .sh-en { font-size:9px; letter-spacing:.4em; color:var(--text-dim); text-transform:uppercase; margin-top:6px; }
+  .sec-divider { width:32px; height:1px; background:var(--accent); margin:14px auto 0; }
+
+  /* DETAIL BLOCKS */
+  .detail-wrap { max-width:600px; margin:0 auto; }
+  .detail-block { margin-bottom:36px; }
+  .detail-label { font-size:10px; letter-spacing:.35em; color:var(--accent); text-transform:uppercase; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--border); }
+  .detail-text { font-family:var(--serif); font-size:17px; font-weight:300; line-height:1.85; color:var(--text); }
+  .gift-list { list-style:none; }
+  .gift-item, .shadow-item { font-family:var(--serif); font-size:16px; font-weight:300; line-height:1.6; color:var(--text); padding-left:24px; position:relative; margin-bottom:14px; }
+  .gift-item::before { content:'◆'; position:absolute; left:0; top:1px; color:var(--accent); font-size:11px; }
+  .shadow-item::before { content:'◇'; position:absolute; left:0; top:1px; color:var(--accent2); font-size:11px; }
+
+  /* SPECTRUM */
+  .spectrum-grid { display:grid; gap:32px; max-width:600px; margin:0 auto; }
   .spectrum-row { display:grid; grid-template-columns:90px 1fr 90px; align-items:center; gap:16px; }
   .spec-lbl { font-size:10px; letter-spacing:.12em; color:var(--text-dim); text-transform:uppercase; line-height:1.4; }
   .spec-lbl.right { text-align:right; }
@@ -143,27 +140,64 @@
   .spec-dot { width:10px; height:10px; border-radius:50%; background:var(--accent); position:absolute; top:-4px; transform:translateX(-50%); box-shadow:0 0 8px var(--accent); }
   .spec-pct { position:absolute; top:-20px; font-size:9px; color:var(--accent); transform:translateX(-50%); font-family:var(--mono); }
 
-  .types-section { border-top:1px solid var(--border); padding-top:44px; }
-  .types-label { font-size:10px; letter-spacing:.4em; color:var(--text-dim); text-transform:uppercase; margin-bottom:24px; text-align:center; }
+  /* DEGREE ANALYSIS */
+  .analysis-grid { display:flex; flex-direction:column; gap:16px; max-width:620px; margin:0 auto; }
+  .analysis-card { border:1px solid var(--border); border-left:2px solid var(--accent); padding:22px 24px; transition:all .2s; }
+  .analysis-card:hover { background:rgba(0,255,224,0.02); }
+  .ana-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px; }
+  .ana-axis { font-size:10px; letter-spacing:.25em; color:var(--text-dim); text-transform:uppercase; }
+  .ana-badge { font-size:10px; letter-spacing:.15em; padding:3px 12px; border:1px solid; font-family:var(--mono); }
+  .ana-badge.extreme { border-color:var(--accent); color:var(--accent); background:rgba(0,255,224,0.06); }
+  .ana-badge.clear { border-color:var(--accent2); color:var(--accent2); }
+  .ana-badge.moderate { border-color:var(--text-dim); color:var(--text-dim); }
+  .ana-badge.balanced { border-color:var(--border); color:var(--text-dim); opacity:.7; }
+  .ana-pole { font-family:var(--serif); font-size:22px; font-weight:300; color:var(--text-bright); margin-bottom:10px; }
+  .ana-pole span { font-style:italic; font-size:14px; color:var(--text-dim); margin-left:6px; }
+  .ana-text { font-family:var(--serif); font-size:15px; font-weight:300; line-height:1.75; color:var(--text); }
+
+  /* ALL TYPES */
   .types-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
-  .type-tile { border:1px solid var(--border); padding:18px 10px; text-align:center; transition:all .2s; }
+  .type-tile { border:1px solid var(--border); padding:18px 10px; text-align:center; transition:all .2s; cursor:pointer; }
+  .type-tile:hover { border-color:var(--accent); background:rgba(0,255,224,0.03); transform:translateY(-2px); }
   .type-tile.active { border-color:var(--accent); background:rgba(0,255,224,0.04); }
   .tt-code { font-family:var(--serif); font-size:17px; font-weight:300; color:var(--text-dim); letter-spacing:.1em; display:block; margin-bottom:4px; }
-  .type-tile.active .tt-code { color:var(--accent); }
+  .type-tile:hover .tt-code, .type-tile.active .tt-code { color:var(--accent); }
   .tt-name { font-size:9px; color:var(--text-dim); display:block; line-height:1.4; }
-  .type-tile.active .tt-name { color:var(--text); }
+  .type-tile:hover .tt-name, .type-tile.active .tt-name { color:var(--text); }
+  .types-hint { text-align:center; font-size:10px; letter-spacing:.2em; color:var(--text-dim); margin-top:18px; font-style:italic; }
 
-  .btn-retry { display:block; margin:44px auto 0; font-family:var(--mono); font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--text-dim); background:transparent; border:1px solid var(--border); padding:13px 40px; cursor:pointer; transition:all .2s; }
+  .btn-retry { display:block; margin:48px auto 0; font-family:var(--mono); font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--text-dim); background:transparent; border:1px solid var(--border); padding:13px 40px; cursor:pointer; transition:all .2s; }
   .btn-retry:hover { border-color:var(--accent); color:var(--accent); }
   .site-footer { padding:36px 0; text-align:center; border-top:1px solid var(--border); margin-top:72px; }
   .footer-text { font-size:10px; letter-spacing:.25em; color:var(--text-dim); }
   .footer-text a { color:var(--accent); text-decoration:none; }
+
+  /* MODAL */
+  .modal { display:none; position:fixed; inset:0; z-index:100; }
+  .modal.open { display:block; }
+  .modal-backdrop { position:absolute; inset:0; background:rgba(2,4,8,0.88); backdrop-filter:blur(4px); }
+  .modal-panel {
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:calc(100% - 40px); max-width:620px; max-height:86vh; overflow-y:auto;
+    background:var(--bg); border:1px solid var(--accent);
+    padding:48px 36px 40px; animation:fadeIn .3s ease;
+  }
+  .modal-panel::-webkit-scrollbar { width:4px; }
+  .modal-panel::-webkit-scrollbar-thumb { background:var(--border); }
+  .modal-close { position:absolute; top:16px; right:16px; background:transparent; border:1px solid var(--border); color:var(--text-dim); width:32px; height:32px; cursor:pointer; transition:all .2s; font-size:12px; }
+  .modal-close:hover { border-color:var(--accent); color:var(--accent); }
+  .modal-code { font-family:var(--serif); font-size:48px; font-weight:300; letter-spacing:.2em; color:var(--text-bright); line-height:1; text-align:center; margin-bottom:6px; }
+  .modal-code span { color:var(--accent); }
+  .modal-name-zh { font-family:var(--serif); font-size:30px; font-weight:300; color:var(--accent); text-align:center; margin-bottom:2px; }
+  .modal-name-en { font-family:var(--serif); font-style:italic; font-size:15px; color:var(--text-dim); text-align:center; margin-bottom:20px; }
+  .modal-tag { font-family:var(--serif); font-size:17px; font-weight:300; font-style:italic; line-height:1.7; color:var(--text); text-align:center; max-width:440px; margin:0 auto 36px; padding-bottom:28px; border-bottom:1px solid var(--border); }
 
   @media (max-width:520px) {
     .axes-preview { grid-template-columns:repeat(2,1fr); }
     .types-grid { grid-template-columns:repeat(2,1fr); }
     .spectrum-row { grid-template-columns:56px 1fr 56px; }
     .spec-lbl { font-size:9px; }
+    .modal-panel { padding:44px 22px 32px; }
   }
 </style>
 </head>
@@ -214,20 +248,51 @@
       <div class="result-code" id="result-code"></div>
       <div class="result-name-zh" id="result-name-zh"></div>
       <div class="result-name-en" id="result-name-en"></div>
-      <p class="result-desc" id="result-desc"></p>
+      <p class="result-tagline" id="result-tagline"></p>
     </div>
-    <div class="spec-section">
-      <div class="spec-title">Frequency Spectrum · 频率分布</div>
-      <div class="spectrum-grid" id="spectrum-grid"></div>
+
+    <div class="sec-head">
+      <div class="sh-zh">类型详解</div>
+      <div class="sh-en">Type In Depth</div>
+      <div class="sec-divider"></div>
     </div>
-    <div class="types-section">
-      <div class="types-label">所有16种频率类型 · All 16 Types</div>
-      <div class="types-grid" id="types-grid"></div>
+    <div class="detail-wrap" id="detail-wrap"></div>
+
+    <div class="sec-head">
+      <div class="sh-zh">频率分布</div>
+      <div class="sh-en">Frequency Spectrum</div>
+      <div class="sec-divider"></div>
     </div>
+    <div class="spectrum-grid" id="spectrum-grid"></div>
+
+    <div class="sec-head">
+      <div class="sh-zh">程度比例分析</div>
+      <div class="sh-en">Degree Analysis</div>
+      <div class="sec-divider"></div>
+    </div>
+    <div class="analysis-grid" id="analysis-grid"></div>
+
+    <div class="sec-head">
+      <div class="sh-zh">全部 16 种频率类型</div>
+      <div class="sh-en">All 16 Types</div>
+      <div class="sec-divider"></div>
+    </div>
+    <div class="types-grid" id="types-grid"></div>
+    <div class="types-hint">点击任意类型查看详解 · Tap any type for details</div>
+
     <button class="btn-retry" onclick="resetQuiz()">重新测试 · Retake</button>
     <footer class="site-footer">
       <div class="footer-text">MQRS系统 由 <a href="https://mellowwei.github.io/MellowWei/" target="_blank">xingyeLing7Ai</a> 设计 · 427Hz · 振动即存在</div>
     </footer>
+  </div>
+</div>
+
+<!-- TYPE MODAL -->
+<div id="type-modal" class="modal">
+  <div class="modal-backdrop" onclick="closeModal()"></div>
+  <div class="modal-panel">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-body"></div>
   </div>
 </div>
 
@@ -257,9 +322,9 @@ const DEG = [
   {zh:'完全不符合',en:'Not at all',     sym:'◌'}
 ];
 
-// QUESTIONS — type:'degree' direction:1 means符合=M/R/Q/S, direction:-1 means反向
+// QUESTIONS
 const Q = [
-  // ── M AXIS ──
+  // M AXIS
   {axis:'M', axisLabel:'AXIS M · MELLOW · 沉降 vs 浮升', type:'degree', direction:1,
    zh:'你倾向于通过独处和安静来恢复能量，而不是通过新的刺激。',
    en:'You restore energy through solitude and silence, not through new stimulation.'},
@@ -308,8 +373,7 @@ const Q = [
      {zh:'根系——向下生长，力量在看不见的地方',         en:'Root system — growing downward, invisible strength', sc:1},
      {zh:'深海——表面平静，内部有巨大的压力和密度',     en:'Deep ocean — still surface, enormous pressure beneath', sc:2}
    ]},
-
-  // ── R AXIS ──
+  // R AXIS
   {axis:'R', axisLabel:'AXIS R · RHYTHM · 破拍 vs 线性', type:'degree', direction:1,
    zh:'你的思维经常在不同想法之间跳跃，同时处理多条线索。',
    en:'Your mind frequently leaps between ideas, processing multiple threads simultaneously.'},
@@ -358,8 +422,7 @@ const Q = [
      {zh:'即兴演奏——知道调性，但每次都不一样',                     en:'Improvisation — know the key, always different', sc:1},
      {zh:'Drum & Bass——密度爆炸，非等时，有内在逻辑但不规则',     en:'Drum & bass — explosive density, non-linear internal logic', sc:2}
    ]},
-
-  // ── Q AXIS ──
+  // Q AXIS
   {axis:'Q', axisLabel:'AXIS Q · QUALIA · 内密 vs 外投', type:'degree', direction:1,
    zh:'你的内在世界比任何人知道的都要丰富、复杂得多。',
    en:'Your inner world is far richer and more complex than anyone knows.'},
@@ -370,7 +433,7 @@ const Q = [
      {zh:'立刻找人倾诉，不说出来会憋住',           en:'Tell someone immediately — holding it in suffocates', sc:-2},
      {zh:'写下来或发出去，通过表达来消化',         en:'Write or send it out — expression is how you process', sc:-1},
      {zh:'让它在内部沉淀，可能很久之后才会说',     en:'Let it settle inside — speak of it much later, maybe', sc:1},
-     {zh:'独自在内部完整地处理，外部世界不需要知道',en:'Process it entirely inside — the world doesn\'t need to know', sc:2}
+     {zh:'独自在内部完整地处理，外部世界不需要知道',en:'Process it entirely inside — the world does not need to know', sc:2}
    ]},
   {axis:'Q', axisLabel:'AXIS Q · QUALIA · 内密 vs 外投', type:'degree', direction:-1,
    zh:'你通过表达和分享来真正理解自己的感受，而不是通过独自消化。',
@@ -391,7 +454,7 @@ const Q = [
    zh:'灵感或重要想法来临时，你的第一动作是：',
    en:'When inspiration arrives, your first move is:',
    opts:[
-     {zh:'立刻分享——不分享感觉不完整',             en:'Share immediately — it doesn\'t feel complete without sharing', sc:-2},
+     {zh:'立刻分享——不分享感觉不完整',             en:'Share immediately — incomplete without sharing', sc:-2},
      {zh:'先告诉一个信任的人，再进一步发展',       en:'Tell someone trusted first, then develop it', sc:-1},
      {zh:'先在内部成形，再决定是否传递',           en:'Let it form inside first — then decide whether to transmit', sc:1},
      {zh:'完整地在内部运行，传递是更之后的事',     en:'Run it fully inside — transmission is a later question', sc:2}
@@ -408,11 +471,10 @@ const Q = [
      {zh:'有防护的空间——只有少数人能进入深处',       en:'A guarded space — few ever reach the depth', sc:1},
      {zh:'深海——表面可见，但真正的深度从未被触碰',   en:'Deep ocean — surface visible, but real depth unreached', sc:2}
    ]},
-
-  // ── S AXIS ──
+  // S AXIS
   {axis:'S', axisLabel:'AXIS S · STALLION · 主权 vs 连接', type:'degree', direction:1,
    zh:'你做一件事最核心的驱动来自内部，不需要外部认可来启动。',
-   en:'Your core drive comes from inside — you don\'t need external validation to begin.'},
+   en:'Your core drive comes from inside — you do not need external validation to begin.'},
   {axis:'S', axisLabel:'AXIS S · STALLION · 主权 vs 连接', type:'choice',
    zh:'当你完成一件重要的事，你最需要的是：',
    en:'After completing something important, what you most need is:',
@@ -420,7 +482,7 @@ const Q = [
      {zh:'有人看见它，感受到它，告诉你它有价值',           en:'Someone to see it, feel it, tell you it has value', sc:-2},
      {zh:'知道它对重要的人产生了某种影响',               en:'Knowing it had some impact on someone who matters', sc:-1},
      {zh:'自己确认它完成了，然后继续下一件',             en:'Confirm it yourself — then move to the next', sc:1},
-     {zh:'内部已经知道它是对的，外部评价不改变这一点',   en:'Internally knowing it\'s right — external judgment changes nothing', sc:2}
+     {zh:'内部已经知道它是对的，外部评价不改变这一点',   en:'Internally knowing it is right — external judgment changes nothing', sc:2}
    ]},
   {axis:'S', axisLabel:'AXIS S · STALLION · 主权 vs 连接', type:'degree', direction:-1,
    zh:'重要关系中的断连或冲突，会显著影响你的行动力和整体状态。',
@@ -453,31 +515,179 @@ const Q = [
    zh:'你存在的方式，更像哪种力学结构：',
    en:'Your mode of existence is more like:',
    opts:[
-     {zh:'河流——方向由地形（关系与环境）塑造，随势流动', en:'River — direction shaped by terrain (relationships and environment)', sc:-2},
-     {zh:'植物——需要土壤（连接与回应）才能持续生长',   en:'Plant — needs soil (connection and response) to keep growing', sc:-1},
-     {zh:'山——稳定自持，因他人到来而有了意义',         en:'Mountain — stable and self-contained, given meaning by those who come', sc:1},
-     {zh:'恒星——自己燃烧，引力由内部产生，不依赖外部', en:'Star — self-burning, gravity generated from within', sc:2}
+     {zh:'河流——方向由地形（关系与环境）塑造，随势流动', en:'River — direction shaped by terrain', sc:-2},
+     {zh:'植物——需要土壤（连接与回应）才能持续生长',   en:'Plant — needs soil to keep growing', sc:-1},
+     {zh:'山——稳定自持，因他人到来而有了意义',         en:'Mountain — stable, given meaning by those who come', sc:1},
+     {zh:'恒星——自己燃烧，引力由内部产生，不依赖外部', en:'Star — self-burning, gravity from within', sc:2}
    ]}
 ];
 
-// TYPES
+// AXIS INFO for analysis
+const AXIS_INFO = {
+  M:{ label:'能量方向 · ENERGY',  pos:{code:'M',zh:'沉降',en:'Descent'},   neg:{code:'W',zh:'浮升',en:'Ascent'} },
+  R:{ label:'认知节奏 · RHYTHM',  pos:{code:'R',zh:'破拍',en:'Breakbeat'}, neg:{code:'L',zh:'线性',en:'Linear'} },
+  Q:{ label:'体验方向 · QUALIA',  pos:{code:'Q',zh:'内密',en:'Interior'},  neg:{code:'X',zh:'外投',en:'Projected'} },
+  S:{ label:'力量来源 · FORCE',   pos:{code:'S',zh:'主权',en:'Sovereign'}, neg:{code:'C',zh:'连接',en:'Relational'} }
+};
+
+// DEGREE ANALYSIS TEXT — pole × strength bucket
+const ANALYSIS = {
+  M:{
+    M:{ extreme:'你的能量是深度内向型的，几乎没有妥协空间。独处不是偏好，是你一切运作的地基——没有足够的安静，你会逐渐失去与自己的连接。',
+        clear:'你明显偏向沉降。安静和独处是你主要的恢复与思考方式，外部刺激过量会让你需要更长的时间归位。',
+        moderate:'你温和地偏向沉降。你享受独处带来的清晰，但也能从适度的外部刺激中汲取能量，两者并非互斥。',
+        balanced:'你在沉降与浮升之间接近平衡。你既能向内沉淀，也能向外释放，真正的开关取决于情境而非固定倾向。' },
+    W:{ extreme:'你的能量是高度外向型的。外部世界的刺激、流动和互动是你的燃料——长时间的静止和隔离会让你熄火，而不是充电。',
+        clear:'你明显偏向浮升。你在流动和互动中被点燃，新的刺激让你兴奋而非疲惫。',
+        moderate:'你温和地偏向浮升。你倾向于在外部世界中获得能量，但也需要一定的独处来沉淀。',
+        balanced:'你在浮升与沉降之间接近平衡。你能向外释放，也能向内回收，状态随情境切换。' }
+  },
+  R:{
+    R:{ extreme:'你的认知是极度非线性的。多线并行、跳跃联想、密度爆炸是你的默认状态——线性的、按部就班的流程会让你窒息。',
+        clear:'你明显偏向破拍。你的思维喜欢同时打开多条线索，灵感以爆发而非积累的形式抵达。',
+        moderate:'你温和地偏向破拍。你既能跳跃也能线性推进，但当自由度高时你的创造力最强。',
+        balanced:'你在破拍与线性之间接近平衡。你能在跳跃与顺序之间切换，根据任务选择节奏。' },
+    L:{ extreme:'你的认知是高度线性的。清晰的顺序、稳定的推进、一步一落地是你的力量来源——过度的跳跃和混乱会显著削弱你。',
+        clear:'你明显偏向线性。你倾向于把一件事走到底，结构和顺序给你安全感和效率。',
+        moderate:'你温和地偏向线性。你喜欢有结构的推进，但也能容纳一定的跳跃和即兴。',
+        balanced:'你在线性与破拍之间接近平衡。你能按顺序推进，也能跳跃发散，节奏随情境调整。' }
+  },
+  Q:{
+    Q:{ extreme:'你的体验几乎完全向内累积。你的内在世界远比任何人知道的丰富，而表达只是冰山一角——很多东西你从未、也不需要说出口。',
+        clear:'你明显偏向内密。体验对你来说先在内部沉淀，表达是之后的、可选的动作。',
+        moderate:'你温和地偏向内密。你倾向于先在内部消化，但也会在信任时打开。',
+        balanced:'你在内密与外投之间接近平衡。你既能向内沉淀，也能向外表达，取决于对象和情境。' },
+    X:{ extreme:'你的体验高度依赖表达才能完成。说出来、写出来、传递出去，体验才算真正发生——憋在内部会让你感到不真实。',
+        clear:'你明显偏向外投。表达和分享是你理解自己的主要方式，外部回应让体验落地。',
+        moderate:'你温和地偏向外投。你倾向于通过表达来消化，但也保留一些只属于自己的内部空间。',
+        balanced:'你在外投与内密之间接近平衡。你能表达，也能沉默，方向随情境流动。' }
+  },
+  S:{
+    S:{ extreme:'你的力量几乎完全来自内部。外部认可对你来说是锦上添花，从不是启动条件——你做一件事，是因为内部有个声音说它必须存在，这一点不可谈判。',
+        clear:'你明显偏向主权。你先信任自己的判断，行动力主要来自内部的确认而非外部的回应。',
+        moderate:'你温和地偏向主权。你的驱动主要来自内部，但他人的反应也会进入你的考量。',
+        balanced:'你在主权与连接之间接近平衡。你既有内部的方向感，也重视与他人的共鸣，两者共同驱动你。' },
+    C:{ extreme:'你的力量高度来自连接。与他人的共鸣、被需要的感觉、关系的状态是你行动力的核心燃料——断连会显著削弱你的整体状态。',
+        clear:'你明显偏向连接。你的驱动很大程度上来自关系和共鸣，他人的反应深刻影响你的状态。',
+        moderate:'你温和地偏向连接。你重视与他人的连接作为动力，但也保有一定的内部方向。',
+        balanced:'你在连接与主权之间接近平衡。你既从关系中获得动力，也有自己的内在锚点。' }
+  }
+};
+
+// 16 TYPES — full detail
 const TYPES = {
-  'MRQS':{zh:'深钟', en:'Deep Bell',       desc:'从最深处震动，不需要移动，空间自己传播你的频率。你是那个在房间里最安静、但改变了整个房间的存在。你的力量不在于冲击，而在于共鸣半径。'},
-  'MRQC':{zh:'暗流', en:'Undertow',         desc:'看不见，但方向确定，力量持续。你的影响不在表面，而在水下——慢慢改变一切的走向，而对方往往不知道发生了什么。'},
-  'MRXS':{zh:'震波', en:'Shockwave',        desc:'破拍节奏加外投力量加主权驱动。你的创造是冲击型的——从内部爆炸，向外震碎边界。你传递，是因为你必须传递，不是因为需要回响。'},
-  'MRXC':{zh:'共振场',en:'Resonance Field', desc:'你的破拍节奏感染整个关系网络。你不需要成为中心，因为你本身就是让一切发生共振的场域。人们在你的频率里找到自己。'},
-  'MLQS':{zh:'基岩', en:'Bedrock',          desc:'不移动，不炫耀，但所有建筑都建在你上面。你的稳定性是结构性的——承重而不显，默默支撑着其他人以为是自己建起来的东西。'},
-  'MLQC':{zh:'锚守', en:'Anchor',           desc:'你用稳定的节奏和深邃的内在为他人定位。你是那个让漂流的人知道哪里是岸的存在。没有你，很多人不知道自己在哪里。'},
-  'MLXS':{zh:'磁极', en:'Magnetic Pole',    desc:'静止的引力中心。你不追赶，因为你的位置本身就是坐标。一切都知道你在哪里，方向由你定义，无需声张。'},
-  'MLXC':{zh:'引潮', en:'Tidal Pull',       desc:'你用规律性和开放性，慢慢、不可阻挡地把他人拉向自己。月亮一样的力量——看不见在用力，但大海的涨落都是你的证明。'},
-  'WRQS':{zh:'闪电', en:'Lightning',        desc:'浮升、破拍、内密、主权——四轴最高激活态之一。你穿透的速度比任何人意识到发生了什么都快。来得快，走得彻底，但痕迹永久。'},
-  'WRQC':{zh:'火花', en:'Spark',            desc:'你点燃他人，却不总知道自己有多亮。你的内在世界是火，你的破拍是引信，你的关系需求让那个火找到了用武之地。'},
-  'WRXS':{zh:'雷',   en:'Thunder',          desc:'浮升+破拍+外投+主权：最高冲击密度。你的声音在人离开很久之后还在空间里震动。你不需要在场，你留下的频率会替你说话。'},
-  'WRXC':{zh:'聚变', en:'Fusion',           desc:'你通过关系产生核聚变。每一次真正的接触对你来说都是能量密度的跃升——两个体系在你这里不是相遇，是互相触发临界反应。'},
-  'WLQS':{zh:'灯塔', en:'Lighthouse',       desc:'浮升但稳定，内密却被远处看见。你不需要移动——你的位置本身就是指引。无论天气怎样，你都在，人们知道你在哪里。'},
-  'WLQC':{zh:'桥',   en:'Bridge',           desc:'你是连接两岸的结构。你的存在让本来无法抵达对方的人，突然发现路径已经在那里了。你不是目的地，你是可能性本身。'},
-  'WLXS':{zh:'号角', en:'Herald',           desc:'浮升、线性、外投、主权——主角型宣告者。你来到，你看见，你宣告方向。人们不一定立刻理解，但他们知道出发的时刻到了。'},
-  'WLXC':{zh:'催化剂',en:'Catalyst',        desc:'你让所有人发生反应，自己却保持清醒。你的接触本身就是转化的条件——你不需要改变，你只需要出现，化学反应自己发生。'}
+  'MRQS':{ zh:'深钟', en:'Deep Bell',
+    tag:'从最深处震动，不需要移动，空间自己传播你的频率。',
+    intro:'你是从最深处震动整个空间的存在。你不需要移动，不需要喧哗——你的频率本身就会传播。在房间里你往往是最安静的那个，却改变了整个房间的频率。破拍的认知让你在深处依然高速运转，内密让你的世界无人完全知晓，主权让你的震动只服从内部的指令。',
+    gifts:['共鸣半径远超你的音量——人们被你影响，却说不清是怎么发生的','在最深的安静里依然保持高密度的内部运算','你的判断只对内部负责，因此极难被外部噪音动摇'],
+    shadow:['因为太安静，你的深度常被低估，直到为时已晚','内部世界太丰富，可能让你长期不被任何人真正进入'],
+    relation:'你需要的是能感知你未说出口部分的人。表层的热闹对你无意义——你寻找的是能听见钟声余韵的人。一旦有人真正进入你的深处，那种连接对你是永久的。',
+    creation:'你的作品从深处生长，往往在完成很久之后才被世界听见。不要因为即时的安静而怀疑自己——深钟的回响是按年计算的，不是按天。' },
+  'MRQC':{ zh:'暗流', en:'Undertow',
+    tag:'看不见，但方向确定，力量持续。改变一切走向的水下力量。',
+    intro:'你是水面下改变一切走向的力量。看不见，但方向确定，力量持续。破拍让你的影响以非线性的方式渗透，内密让你的运作隐藏在表面之下，而连接让这股暗流始终朝向你在乎的人和事。',
+    gifts:['在不引起注意的情况下改变事情的走向','对关系和氛围有极敏锐的水下感知','持久——你的影响是慢性的、累积的，不是一次性的'],
+    shadow:['你的付出常常无人看见，可能积累成不被理解的委屈','隐藏的力量如果方向偏了，连你自己也难以察觉'],
+    relation:'你在关系中是深沉而忠诚的推动者。你不张扬你的影响，但你深刻地塑造着你在乎的人。你需要的是偶尔有人潜下水面，看见你一直在做什么。',
+    creation:'你的创造像水流——绕过障碍，从底部改变地形。给自己一些被看见的时刻，否则长期的隐形会消耗你。' },
+  'MRXS':{ zh:'震波', en:'Shockwave',
+    tag:'从内部深处积累，然后向外爆炸，震碎既有的边界。',
+    intro:'你的创造是冲击型的——从内部深处积累，然后向外爆炸，震碎既有的边界。沉降给你深度，破拍给你密度，外投让你必须释放，主权让这次冲击只服从你自己的指令。你传递，是因为你必须传递，不是因为需要回响。',
+    gifts:['能把深度的内部积累转化为强烈的外部冲击','你的输出有穿透力，能打破停滞和惯性','不依赖外部认可，因此敢于发出别人不敢发的声音'],
+    shadow:['冲击之后需要深度回撤，这个节奏别人未必理解','力量太强时可能震碎本不该震碎的东西'],
+    relation:'你在关系中是强烈而真实的。你不擅长温吞，你的爱和你的创造一样有冲击力。你需要的是能承受你的强度、又不被你震退的人。',
+    creation:'你的作品是事件，不是产品。它们改变在场者的频率。允许自己在爆发后完全沉寂——那是下一次震波的蓄能期。' },
+  'MRXC':{ zh:'共振场', en:'Resonance Field',
+    tag:'你不需要成为中心，你本身就是让一切发生共振的场域。',
+    intro:'你不需要成为中心，因为你本身就是让一切发生共振的场域。沉降给你深度，破拍让你的频率丰富多变，外投让你向外辐射，连接让整个关系网络在你的频率里被调动。人们在你的场中找到自己的振动。',
+    gifts:['能让一群人同频——你在场时，集体的振动会自动对齐','对群体氛围有近乎本能的调谐能力','你的丰富频率能容纳很多不同的人'],
+    shadow:['太擅长调动他人，可能忘了自己的频率是什么','共振需要消耗，过度付出会让你的场失谐'],
+    relation:'你是关系的连接者和氛围的塑造者。你让人们感到被看见、被调动。但要记得：你也需要一个不需要你调谐别人、只属于你自己的安静空间。',
+    creation:'你的创造天然是协作的、社群的、现场的。你的作品在人群中才完全活过来。' },
+  'MLQS':{ zh:'基岩', en:'Bedrock',
+    tag:'不移动，不炫耀，但所有建筑都建在你上面。',
+    intro:'你不移动，不炫耀，但所有建筑都建在你上面。沉降给你深度，线性给你稳定的承重结构，内密让你的力量藏在地表之下，主权让你只对自己的标准负责。你的稳定性是结构性的——默默支撑着其他人以为是自己建起来的东西。',
+    gifts:['极致的可靠和稳定——在你身上可以安全地建造','不需要外部认可就能长期承重','深沉而不张扬的判断力，是很多人无形的地基'],
+    shadow:['承重太久而不出声，可能被理所当然地依赖','你的深度和付出常常隐于地下，不被看见'],
+    relation:'你是关系中沉默的支柱。你不说很多，但你在那里，稳定地承托。你需要的是偶尔有人问一句：那托住所有人的你，谁来托住？',
+    creation:'你的创造是基础设施型的——不抢眼，但不可或缺。你建造的是别人作品得以站立的地基。' },
+  'MLQC':{ zh:'锚守', en:'Anchor',
+    tag:'用稳定的节奏和深邃的内在，为他人定位。',
+    intro:'你用稳定的节奏和深邃的内在为他人定位。沉降给你深度，线性给你恒定的节律，内密让你的世界深而不外露，连接让这份稳定始终朝向他人。你是那个让漂流的人知道哪里是岸的存在。',
+    gifts:['你的稳定性是别人的定位坐标','在混乱中保持节律，给周围人安全感','深沉的内在加上对他人的关注，让你成为可信赖的锚点'],
+    shadow:['长期为别人定位，可能忘了自己也需要被锚定','内密让你的需求难以被察觉，容易被当作永远稳定的那个'],
+    relation:'你是关系中的定海神针。漂流的人会本能地靠向你。但要记得表达你自己的漂流——锚也有需要被固定的时候。',
+    creation:'你的创造给人稳定感和方向感。你的作品是别人在动荡中可以回到的地方。' },
+  'MLXS':{ zh:'磁极', en:'Magnetic Pole',
+    tag:'静止的引力中心。你的位置本身就是坐标。',
+    intro:'你是静止的引力中心。你不追赶，因为你的位置本身就是坐标。沉降给你深度的定力，线性给你稳定的方位，外投让你的引力向外辐射，主权让方向由你定义。一切都知道你在哪里，无需你声张。',
+    gifts:['不动而有引力——人和事自动朝你聚集','稳定的方位感，是别人导航的参照','你定义方向，不需要追随任何人'],
+    shadow:['太习惯被靠近，可能不擅长主动靠近别人','引力是被动的，有时你会希望被人主动选择而非只是被吸引'],
+    relation:'你在关系中是稳定的吸引者。人们被你的定力吸引。你需要练习的是主动伸手——磁极也可以选择朝谁倾斜。',
+    creation:'你的创造有定向的吸引力。它们不喧哗，却让人无法忽视，自动成为某个领域的参照点。' },
+  'MLXC':{ zh:'引潮', en:'Tidal Pull',
+    tag:'用规律和开放，慢慢、不可阻挡地把他人拉向自己。',
+    intro:'你用规律性和开放性，慢慢、不可阻挡地把他人拉向自己。沉降给你深度，线性给你潮汐般的规律，外投让你向外作用，连接让这股拉力始终关于关系。月亮一样的力量——看不见在用力，但大海的涨落都是你的证明。',
+    gifts:['温和而不可抗拒的影响力——你不强迫，但人们会被拉动','规律和稳定让你的拉力可信赖、可预期','深沉加上对他人的关注，让你的吸引带着温度'],
+    shadow:['你的影响太温和，可能被低估其实际的力量','长期牵引他人，可能让你忽略自己想被谁牵引'],
+    relation:'你是关系中温柔而持久的引力。你不抢，但人们会一次次回到你身边。你的拉力是爱的形状。',
+    creation:'你的创造像潮汐——规律地、温柔地改变着接触它的人。影响是累积的，不是冲击的。' },
+  'WRQS':{ zh:'闪电', en:'Lightning',
+    tag:'穿透的速度比任何人意识到发生了什么都快。',
+    intro:'浮升、破拍、内密、主权——四轴中三个处于高激活态。你穿透的速度比任何人意识到发生了什么都快。浮升给你向上的爆发，破拍给你非线性的密度，内密让你的源头无人看清，主权让这道闪电只听从内部的指令。来得快，走得彻底，但痕迹永久。',
+    gifts:['瞬间穿透——你能在一击中击中本质','高能量加上深内在，爆发力惊人却有深度支撑','不需要预热，不需要许可，你的判断即刻成为行动'],
+    shadow:['来去太快，别人难以跟上或留住你','内密让你的源头无人知晓，可能让你在巅峰时感到孤独'],
+    relation:'你在关系中是耀眼而难以捉摸的。你的强度和速度让人着迷也让人难以靠近。你需要的是能在闪电之间的黑暗里依然信任你还会回来的人。',
+    creation:'你的创造是瞬间的击中——一个想法、一次爆发、一道划破天空的线。不要强迫自己持续发光，闪电的本质就是间歇。' },
+  'WRQC':{ zh:'火花', en:'Spark',
+    tag:'你点燃他人，却不总知道自己有多亮。',
+    intro:'你点燃他人，却不总知道自己有多亮。浮升让你向上跃动，破拍让你的能量跳跃多变，内密让你的内在世界是隐藏的火源，连接让这火总是为了点亮别人。你的内在是火，你的破拍是引信，你的关系需求让那团火找到了用武之地。',
+    gifts:['天然的点燃者——你让周围的人和想法都活起来','跳跃的能量加上隐藏的深度，让你的火既明亮又有内涵','对他人的关注让你的火总是温暖的，而非灼伤的'],
+    shadow:['太忙于点亮别人，可能看不见自己的光','内密让你的火源不被理解，别人只看到火花，看不到燃料'],
+    relation:'你在关系中是点燃者和激励者。你让人感到充满可能。但要记得：你也需要有人来为你添柴，而不只是借你的火。',
+    creation:'你的创造是催化型的——它们点燃别人的灵感。你的作品的价值常常在它引发的连锁反应里。' },
+  'WRXS':{ zh:'雷', en:'Thunder',
+    tag:'你的声音在人离开很久之后，还在空间里震动。',
+    intro:'浮升、破拍、外投、主权——最高的冲击密度。你的声音在人离开很久之后还在空间里震动。浮升给你向上的爆发力，破拍给你非线性的强度，外投让你必须向外轰鸣，主权让这道雷只服从你自己。你不需要在场，你留下的频率会替你说话。',
+    gifts:['最大的外部冲击力——你的存在和输出无法被忽视','高能量、高密度、高释放——你是纯粹的冲击事件','不依赖认可，敢于发出最大的声音'],
+    shadow:['强度太高，可能淹没更安静的声音和你自己的细腻','持续轰鸣会耗尽你，你也需要雷声之后的寂静'],
+    relation:'你在关系中是震撼而强烈的。你的存在改变房间的气压。你需要的是能与你的强度共处、又能在雷声间隙陪你安静的人。',
+    creation:'你的创造是宣言式的、轰鸣式的。它们不请求注意，它们夺取注意。允许自己在轰鸣后沉默蓄能。' },
+  'WRXC':{ zh:'聚变', en:'Fusion',
+    tag:'你通过关系产生核聚变。接触即临界反应。',
+    intro:'你通过关系产生核聚变。浮升给你向上的能量，破拍给你跳跃的密度，外投让你向外释放，连接让这一切在与他人的接触中达到临界。每一次真正的接触对你来说都是能量密度的跃升——两个体系在你这里不是相遇，是互相触发临界反应。',
+    gifts:['在连接中释放巨大能量——你和对的人在一起会产生远超个体的力量','高能、外向、关系驱动——你是协作中的核反应堆','能让相遇变成事件，让合作变成质变'],
+    shadow:['你的能量高度依赖连接，独自时可能感到能量塌缩','聚变需要燃料，过度的高强度连接会让你过热'],
+    relation:'你在关系中追求的是质变级的连接。普通的相处对你不够——你寻找能与你一起达到临界的人。这种连接稀有但极其强烈。',
+    creation:'你的创造在协作中达到顶峰。你的最好作品往往诞生于与他人的高强度碰撞。' },
+  'WLQS':{ zh:'灯塔', en:'Lighthouse',
+    tag:'浮升但稳定，内密却被远处看见。位置本身就是指引。',
+    intro:'浮升但稳定，内密却被远处看见。浮升给你向上的可见性，线性给你恒定的节律，内密让你的内核深而不露，主权让你的光只为自己的方向负责。你不需要移动——你的位置本身就是指引。无论天气怎样，你都在，人们知道你在哪里。',
+    gifts:['稳定而高远的存在感——你是别人在黑暗中的参照','恒定的节律加上深沉的内核，让你的光可信赖','你为自己而立，因此你的光不会因别人的来去而熄灭'],
+    shadow:['高而稳定，可能让人觉得你不需要任何人','内密让你的孤独不被看见——灯塔总是独自矗立'],
+    relation:'你在关系中是稳定而高远的存在。人们仰望你、依靠你的方向。你需要的是有人愿意爬上塔顶，陪伴那个独自发光的你。',
+    creation:'你的创造是指引型的——它们为别人提供方向和标准。你的作品高而稳定，成为某个领域的灯塔。' },
+  'WLQC':{ zh:'桥', en:'Bridge',
+    tag:'连接两岸的结构。你不是目的地，你是可能性本身。',
+    intro:'你是连接两岸的结构。浮升让你向上跨越，线性给你稳定的承载结构，内密让你的内在深度不外露，连接让你天然朝向"把分隔的连起来"。你的存在让本来无法抵达对方的人，突然发现路径已经在那里了。你不是目的地，你是可能性本身。',
+    gifts:['天然的连接者——你让原本无法相遇的人和想法相通','稳定可靠，人们敢于踏上你、依赖你','深沉的内在让你理解两岸，因此能真正地连接'],
+    shadow:['总是连接别人，可能让你自己悬在两岸之间，无处归属','内密让你的承载之重不被看见——桥从不抱怨它托起的重量'],
+    relation:'你在关系中是连接者和理解者。你让人们彼此靠近。但要问自己：连接所有人的你，自己的岸在哪里？',
+    creation:'你的创造是桥梁型的——跨学科、跨群体、跨领域。你的作品的价值在于它连通了原本分隔的世界。' },
+  'WLXS':{ zh:'号角', en:'Herald',
+    tag:'主角型宣告者。你来到，你看见，你宣告方向。',
+    intro:'浮升、线性、外投、主权——主角型宣告者。你来到，你看见，你宣告方向。浮升给你向上的能量，线性给你清晰的方位，外投让你必须向外宣告，主权让你只宣告自己确信的方向。人们不一定立刻理解你在说什么，但他们知道出发的时刻到了。',
+    gifts:['天然的方向宣告者——你让集体知道往哪里走','清晰、高能、向外——你的声音召集人们行动','不需要授权，你的确信本身就是号令'],
+    shadow:['太擅长宣告方向，可能忽略那些还没准备好出发的人','你冲在前面，有时会孤独——号角总是第一个响起'],
+    relation:'你在关系中是带领者和召集者。你给人方向和动力。你需要的是能与你并肩、而不只是跟随你的人。',
+    creation:'你的创造是宣言式的、开创式的。你的作品宣告一个新方向，召集人们朝它前进。你是主角，舞台为你而设。' },
+  'WLXC':{ zh:'催化剂', en:'Catalyst',
+    tag:'你让所有人发生反应，自己却保持清醒。',
+    intro:'你让所有人发生反应，自己却保持清醒。浮升给你向上的能量，线性给你稳定的节律，外投让你向外作用，连接让你天然朝向"促成他人的转化"。你的接触本身就是转化的条件——你不需要改变，你只需要出现，化学反应自己发生。',
+    gifts:['天然的催化者——你的在场让别人和事情发生质变','稳定而向外，你能持续地促成转化而不被消耗反应','对他人的关注让你精准地知道什么能催化什么'],
+    shadow:['总是催化别人，可能让你自己很少是那个被转化的人','保持清醒的代价，是有时你站在反应之外，感到未被卷入'],
+    relation:'你在关系中是促成者和激发者。你让身边的人变成更强的版本。但要记得：你也值得有人催化你，而不只是借你催化自己。',
+    creation:'你的创造是催化型的——它们引发别人的反应、转化、行动。你的作品的价值常在它促成的改变里，而非作品本身。' }
 };
 
 // STATE
@@ -554,25 +764,72 @@ function calcType() {
   };
 }
 
+function bucket(pct){
+  if(pct>=75) return {key:'extreme',  zh:'极强'};
+  if(pct>=50) return {key:'clear',    zh:'明显'};
+  if(pct>=25) return {key:'moderate', zh:'温和'};
+  return {key:'balanced', zh:'近平衡'};
+}
+
+// build the detail block HTML for a type
+function typeBody(code, full) {
+  const t = TYPES[code];
+  let h = '';
+  if (full) {
+    h += `<div class="modal-code">${code.split('').map(l=>`<span>${l}</span>`).join('')}</div>
+      <div class="modal-name-zh">${t.zh}</div>
+      <div class="modal-name-en">${t.en}</div>
+      <p class="modal-tag">${t.tag}</p>`;
+  }
+  h += `
+    <div class="detail-block">
+      <div class="detail-label">核心 · Essence</div>
+      <p class="detail-text">${t.intro}</p>
+    </div>
+    <div class="detail-block">
+      <div class="detail-label">天赋 · Gifts</div>
+      <ul class="gift-list">${t.gifts.map(g=>`<li class="gift-item">${g}</li>`).join('')}</ul>
+    </div>
+    <div class="detail-block">
+      <div class="detail-label">阴影 · Shadow</div>
+      <ul class="gift-list">${t.shadow.map(s=>`<li class="shadow-item">${s}</li>`).join('')}</ul>
+    </div>
+    <div class="detail-block">
+      <div class="detail-label">在关系中 · In Relation</div>
+      <p class="detail-text">${t.relation}</p>
+    </div>
+    <div class="detail-block">
+      <div class="detail-label">在创造与工作中 · In Creation</div>
+      <p class="detail-text">${t.creation}</p>
+    </div>`;
+  return h;
+}
+
 function showResult() {
   document.getElementById('screen-quiz').style.display = 'none';
   document.getElementById('screen-result').style.display = 'block';
   const {code, sc} = calcType();
   const t = TYPES[code];
+
   document.getElementById('result-code').innerHTML = code.split('').map(l=>`<span>${l}</span>`).join('');
   document.getElementById('result-name-zh').textContent = t.zh;
   document.getElementById('result-name-en').textContent = t.en;
-  document.getElementById('result-desc').textContent = t.desc;
+  document.getElementById('result-tagline').textContent = t.tag;
 
+  // detail
+  document.getElementById('detail-wrap').innerHTML = typeBody(code, false);
+
+  // spectrum
   const MAX = 16;
   const axes = [
-    {lCode:'M', l:'M 沉降', r:'W 浮升', s:sc.M, c:code[0]},
-    {lCode:'R', l:'R 破拍', r:'L 线性', s:sc.R, c:code[1]},
-    {lCode:'Q', l:'Q 内密', r:'X 外投', s:sc.Q, c:code[2]},
-    {lCode:'S', l:'S 主权', r:'C 连接', s:sc.S, c:code[3]}
+    {key:'M', lCode:'M', l:'M 沉降', r:'W 浮升', s:sc.M, c:code[0]},
+    {key:'R', lCode:'R', l:'R 破拍', r:'L 线性', s:sc.R, c:code[1]},
+    {key:'Q', lCode:'Q', l:'Q 内密', r:'X 外投', s:sc.Q, c:code[2]},
+    {key:'S', lCode:'S', l:'S 主权', r:'C 连接', s:sc.S, c:code[3]}
   ];
   document.getElementById('spectrum-grid').innerHTML = axes.map(a => {
-    const pct = Math.max(5, Math.min(95, ((a.s/MAX)+1)/2*100));
+    // positive score = LEFT pole dominant → dot sits on the LEFT (aligned with the highlighted label)
+    const pct = Math.max(5, Math.min(95, ((-a.s/MAX)+1)/2*100));
     const dL = a.c === a.lCode;
     const strength = Math.round(Math.abs(a.s)/MAX*100);
     return `<div class="spectrum-row">
@@ -586,8 +843,28 @@ function showResult() {
     </div>`;
   }).join('');
 
+  // degree analysis
+  const order = ['M','R','Q','S'];
+  document.getElementById('analysis-grid').innerHTML = order.map(ax => {
+    const info = AXIS_INFO[ax];
+    const score = sc[ax];
+    const pole = score >= 0 ? info.pos : info.neg;
+    const pct = Math.round(Math.abs(score)/MAX*100);
+    const b = bucket(pct);
+    const text = ANALYSIS[ax][pole.code][b.key];
+    return `<div class="analysis-card">
+      <div class="ana-head">
+        <div class="ana-axis">${info.label}</div>
+        <div class="ana-badge ${b.key}">${b.zh} · ${pct}%</div>
+      </div>
+      <div class="ana-pole">${pole.zh}<span>${pole.en}</span></div>
+      <p class="ana-text">${text}</p>
+    </div>`;
+  }).join('');
+
+  // all types grid (clickable)
   document.getElementById('types-grid').innerHTML = Object.entries(TYPES).map(([k,v]) =>
-    `<div class="type-tile ${k===code?'active':''}">
+    `<div class="type-tile ${k===code?'active':''}" onclick="openModal('${k}')">
       <span class="tt-code">${k}</span>
       <span class="tt-name">${v.zh} · ${v.en}</span>
     </div>`
@@ -595,6 +872,19 @@ function showResult() {
 
   window.scrollTo({top:0, behavior:'smooth'});
 }
+
+// MODAL
+function openModal(code) {
+  document.getElementById('modal-body').innerHTML = typeBody(code, true);
+  document.getElementById('type-modal').classList.add('open');
+  document.querySelector('.modal-panel').scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('type-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 function resetQuiz() {
   cur = 0; ans = new Array(32).fill(null);
